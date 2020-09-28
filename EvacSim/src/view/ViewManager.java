@@ -55,7 +55,7 @@ public class ViewManager {
 		mainStage.setScene(mainScene);
 		
 		createSubScenes();
-		createButtons();
+		//createButtons();
 		createBackground();
 		createLogo();
 			
