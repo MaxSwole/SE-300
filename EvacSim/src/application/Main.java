@@ -8,7 +8,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		//THIS IS MIGUEL
 		ViewManager manager = new ViewManager();
 		primaryStage = manager.getMainStage();
 		primaryStage.show();
