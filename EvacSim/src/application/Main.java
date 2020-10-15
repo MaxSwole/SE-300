@@ -9,7 +9,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		//THIS IS MIGUEL
-		//this is miles 2
+		//this is miles 3
 		ViewManager manager = new ViewManager();
 		primaryStage = manager.getMainStage();
 		primaryStage.show();
