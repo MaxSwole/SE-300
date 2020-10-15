@@ -10,6 +10,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		//THIS IS MIGUEL
 		//this is miles 3
+		//This is ya boy. 
 		ViewManager manager = new ViewManager();
 		primaryStage = manager.getMainStage();
 		primaryStage.show();
