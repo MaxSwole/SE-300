@@ -6,6 +6,8 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -17,6 +19,9 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Aircraft;
@@ -131,6 +136,20 @@ public class ViewManager {
 		return box;
 	}
 	
+	private Canvas startSimCanvas() {
+		Canvas canvas = new Canvas();
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		canvas.setLayoutX(64);
+		canvas.setLayoutY(50);
+		gc.setFill(Color.ALICEBLUE);
+		gc.fillRect(40, 50, 10, 10);
+		
+		
+		
+		return canvas;
+	}
+	
+	
 	public Stage getMainStage(){	
 		return mainStage;
 	}
@@ -227,7 +246,6 @@ public class ViewManager {
 	}
 	
 	private void createViewButton(){
-		
 		AircraftEvacSimButton viewButton = new AircraftEvacSimButton("VIEW");
 		addMenuButton(viewButton);
 		
@@ -250,7 +268,13 @@ public class ViewManager {
 		startButton.setOnAction( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-					
+				try {
+					GameManager gameMan = new GameManager();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mainStage.close();
 			}	
 		});
 	}
