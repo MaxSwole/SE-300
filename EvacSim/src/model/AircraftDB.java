@@ -1,22 +1,6 @@
 package model;
 
-public enum Aircraft {
-	
-	airbus("view/resources/chosenAircraft/Airbus1_A380.jpg"),
-	bombardier("view/resources/chosenAircraft/bombardier1_crj200.png"),
-	embraer("view/resources/chosenAircraft/Embraer1_175.jpg");
-	
-	private String urlAircraft;
-	
-	private Aircraft(String urlAircraft){
-		this.urlAircraft= urlAircraft;
-	}
-	
-
-	public String getUrlAircraft(){
-		return this.urlAircraft;
-	}
-	
+public class AircraftDB {
 	public double[][] getSeatCoordinates() {
 		double[][] seatCoordinates = { {97.5,148}, {116,148}, {164.5,148}, {183,148}, //row 1
 				{97.5,175.2}, {116,175.2}, {164.5,175.2}, {183,175.2}, //row 2
@@ -33,5 +17,4 @@ public enum Aircraft {
 				{97.5,482.0}, {116,482.0} }; //row 13
 		return seatCoordinates;
 	}
-	
 }
