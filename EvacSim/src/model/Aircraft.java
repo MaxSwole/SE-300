@@ -2,9 +2,9 @@ package model;
 
 public enum Aircraft {
 	
-	airbus("view/resources/chosenAircraft/Airbus1_A380.jpg"),
-	bombardier("view/resources/chosenAircraft/bombardier1_crj200.png"),
-	embraer("view/resources/chosenAircraft/Embraer1_175.jpg");
+	airbus("view/resources/chosenAircraft/A320.jpg"),
+	bombardier("view/resources/chosenAircraft/CRJ200.jpg"),
+	embraer("view/resources/chosenAircraft/ERJ170.jpg");
 	
 	private String urlAircraft;
 	
