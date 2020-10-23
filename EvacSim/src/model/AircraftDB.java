@@ -2,19 +2,27 @@ package model;
 
 public class AircraftDB {
 	public double[][] getSeatCoordinates() {
-		double[][] seatCoordinates = { {97.5,148}, {116,148}, {164.5,148}, {183,148}, //row 1
-				{97.5,175.2}, {116,175.2}, {164.5,175.2}, {183,175.2}, //row 2
-				{97.5,202.4}, {116,202.4}, {164.5,202.4}, {183,202.4}, //row 3
-				{97.5,229.6}, {116,229.6}, {164.5,229.6}, {183,229.6}, //row 4
-				{97.5,256.8}, {116,256.8}, {164.5,256.8}, {183,256.8}, //row 5
-				{97.5,284.0}, {116,284.0}, {164.5,284.0}, {183,284.0}, //row 6
-				{97.5,311.2}, {116,311.2}, {164.5,311.2}, {183,311.2}, //row 7
-				{97.5,346.0}, {116,346.0}, {164.5,346.0}, {183,346.0}, //row 8
-				{97.5,373.2}, {116,373.2}, {164.5,373.2}, {183,373.2}, //row 9
-				{97.5,400.4}, {116,400.4}, {164.5,400.4}, {183,400.4}, //row 10
-				{97.5,427.6}, {116,427.6}, {164.5,427.6}, {183,427.6}, //row 11
-				{97.5,454.8}, {116,454.8}, {164.5,454.8}, {183,454.8}, //row 12
-				{97.5,482.0}, {116,482.0} }; //row 13
+		
+		double seatAx = 97;
+		double seatBx = 104;
+		double seatCx = 124;
+		double seatDx = 131;
+		double initialY = 148;
+		double yGap = 12;
+		
+		double[][] seatCoordinates = { {seatAx,initialY+(0*yGap)}, {seatBx,initialY+(0*yGap)}, {seatCx,initialY+(0*yGap)}, {seatDx,initialY+(0*yGap)}, //row 1
+				{seatAx,initialY+(1*yGap)}, {seatBx,initialY+(1*yGap)}, {seatCx,initialY+(1*yGap)}, {seatDx,initialY+(1*yGap)}, //row 2
+				{seatAx,initialY+(2*yGap)}, {seatBx,initialY+(2*yGap)}, {seatCx,initialY+(2*yGap)}, {seatDx,initialY+(2*yGap)}, //row 3
+				{seatAx,initialY+(3*yGap)}, {seatBx,initialY+(3*yGap)}, {seatCx,initialY+(3*yGap)}, {seatDx,initialY+(3*yGap)}, //row 4
+				{seatAx,initialY+(4*yGap)}, {seatBx,initialY+(4*yGap)}, {seatCx,initialY+(4*yGap)}, {seatDx,initialY+(4*yGap)}, //row 5
+				{seatAx,initialY+(5*yGap)}, {seatBx,initialY+(5*yGap)}, {seatCx,initialY+(5*yGap)}, {seatDx,initialY+(5*yGap)}, //row 6
+				{seatAx,initialY+(6*yGap)}, {seatBx,initialY+(6*yGap)}, {seatCx,initialY+(6*yGap)}, {seatDx,initialY+(6*yGap)}, //row 7
+				{seatAx,initialY+(7*yGap)}, {seatBx,initialY+(7*yGap)}, {seatCx,initialY+(7*yGap)}, {seatDx,initialY+(7*yGap)}, //row 8
+				{seatAx,initialY+(8*yGap)}, {seatBx,initialY+(8*yGap)}, {seatCx,initialY+(8*yGap)}, {seatDx,initialY+(8*yGap)}, //row 9
+				{seatAx,initialY+(9*yGap)}, {seatBx,initialY+(9*yGap)}, {seatCx,initialY+(9*yGap)}, {seatDx,initialY+(9*yGap)}, //row 10
+				{seatAx,initialY+(10*yGap)}, {seatBx,initialY+(10*yGap)}, {seatCx,initialY+(10*yGap)}, {seatDx,initialY+(10*yGap)}, //row 11
+				{seatAx,initialY+(11*yGap)}, {seatBx,initialY+(11*yGap)}, {seatCx,initialY+(11*yGap)}, {seatDx,initialY+(11*yGap)}, //row 12
+				{seatAx,initialY+(12*yGap)}, {seatBx,initialY+(12*yGap)} }; //row 13
 		return seatCoordinates;
 	}
 }
