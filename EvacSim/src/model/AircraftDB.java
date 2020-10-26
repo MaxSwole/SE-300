@@ -23,6 +23,23 @@ public class AircraftDB {
 				{seatAx,initialY+(10*yGap)}, {seatBx,initialY+(10*yGap)}, {seatCx,initialY+(10*yGap)}, {seatDx,initialY+(10*yGap)}, //row 11
 				{seatAx,initialY+(11*yGap)}, {seatBx,initialY+(11*yGap)}, {seatCx,initialY+(11*yGap)}, {seatDx,initialY+(11*yGap)}, //row 12
 				{seatAx,initialY+(12*yGap)}, {seatBx,initialY+(12*yGap)} }; //row 13
+		
+		int numRows = 10;
+		int numCols = 4;
+		double isleLocation = 3;
+		double initialX = 97;
+		initialY = 148;
+		double seatSize = 7; //square size in pixels taken from Sprite.java
+		double isleGap = 12;
+		double seatGap = 0;
+		double[][] coordinates = new double[numRows][numCols];
+		
+		//for(int yCt=0; yCt<numRows; yCt++) {
+		//	for(int xCt=0; xCt<numCols; xCt++) {
+		//		coordinates[numRows][numCols] = {initialX+(seatGap*xCt)+(seatSize*xCt)+(isleGap*Math.floor(xCt/isleLocation)),initialY+()}; //unfinished logic {initial, gap between seats, prevents overlap, adds isle gap}
+		//	}
+		//}
+		
 		return seatCoordinates;
 	}
 }
