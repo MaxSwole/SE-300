@@ -11,6 +11,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
@@ -46,28 +48,38 @@ public class ViewManager {
 	private final static int MenuButtonStartX = 40;
 	private final static int MenuButtonStartY = 150;
 	
-	CheckBox exit1;
-	CheckBox exit2;
-	CheckBox exit3;
-	CheckBox exit4;
+	private CheckBox exit1;
+	private CheckBox exit2;
+	private CheckBox exit3;
+	private CheckBox exit4;
 	
 	private AircraftEvacSubScene aircraftSubScene;
 	private AircraftEvacSubScene configurationSubScene;
 	private AircraftEvacSubScene passengerSubScene;
-	private AircraftEvacSubScene exitSubScene;
 	
 	private AircraftEvacSubScene sceneToHide;
+	
 	
 	List<AircraftEvacSimButton> menuButtons;
 	List<AircraftPicked> aircraftList;
 	private Aircraft choosenAircraft;
 	
+	private Spinner passengerSpinner = new Spinner();
+	private Spinner passengerSpinner2 = new Spinner();
+	private Spinner passengerSpinner3= new Spinner();
+	private Spinner passengerSpinner4 = new Spinner();
+//  private Aircraft aircraft ;
+    private int numOfPassengers = 50;
+//  private double[][] seats = aircraft.getSeatCoordinates();
+    
+    
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane, width, height);
 		mainStage = new Stage();
 		mainStage.setScene(mainScene);
+		
 		
 		createSubScenes();
 		createButtons();
@@ -85,23 +97,14 @@ public class ViewManager {
 		sceneToHide = subScene;
 	}
 	
-// create sub-scenes
-	
+// create sub-scenes	
 	private void createSubScenes(){
-
-//		configurationSubScene = new AircraftEvacSubScene();
-//		mainPane.getChildren().add(configurationSubScene);
-	
-//		passengerSubScene = new AircraftEvacSubScene();
-//		mainPane.getChildren().add(passengerSubScene);
-
-		exitSubScene = new AircraftEvacSubScene();
-		mainPane.getChildren().add(exitSubScene);
-			
+		
 		
 		createPassengerSubScene();
-		createAircraftSubScene();
 		createConfigurationSubScene();
+		createAircraftSubScene();
+		
 	}
 	
 // sub-scene for passenger
@@ -110,19 +113,53 @@ public class ViewManager {
 		mainPane.getChildren().add(passengerSubScene);
 		passengerSubsceneLabel();
 	}
-	
-	
-// label for configuration sub-scene 	
+		
+// label for passenger sub-scene 	
 	private void passengerSubsceneLabel(){
+		SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, numOfPassengers);
+		passengerSpinner.setValueFactory(passengerSpinnerValue);
+		passengerSpinner.setPrefSize(60, 30);
+		passengerSpinner.setLayoutX(95);
+		passengerSpinner.setLayoutY(85);
+		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
+		passengerSpinner2.setValueFactory(passengerSpinnerValue2);
+		passengerSpinner2.setPrefSize(60, 20);
+		passengerSpinner2.setLayoutX(100);
+		passengerSpinner2.setLayoutY(170);
+		SpinnerValueFactory<Integer> passengerSpinnerValue3 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
+		passengerSpinner3.setValueFactory(passengerSpinnerValue3);
+		passengerSpinner3.setPrefSize(60, 20);
+		passengerSpinner3.setLayoutX(240);
+		passengerSpinner3.setLayoutY(170);
+		SpinnerValueFactory<Integer> passengerSpinnerValue4 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
+		passengerSpinner4.setValueFactory(passengerSpinnerValue4);
+		passengerSpinner4.setPrefSize(60, 20);
+		passengerSpinner4.setLayoutX(100);
+		passengerSpinner4.setLayoutY(210);
+		
+		
 		Label text = new Label("PASSENGER COUNT: ");
+		Label text1 = new Label("PASSENGERS ");			// have to finish this one
 		Label text2 = new Label("PASSENGER GENDER: ");
+		Label text3 = new Label("ADULT");
+		Label text4 = new Label("CHILD");
+		Label text5 = new Label("ELDERY");
 		text.setFont(Font.font("Calibri Light", 18));
 		text.setLayoutX(10);
-		text.setLayoutY(10);
+		text.setLayoutY(50);
 		text2.setFont(Font.font("Calibri Light", 18));
 		text2.setLayoutX(10);
-		text2.setLayoutY(70);
-		passengerSubScene.getPane().getChildren().addAll(text, text2);
+		text2.setLayoutY(130);
+		text3.setFont(Font.font("Calibri Light", 15));
+		text3.setLayoutX(180);
+		text3.setLayoutY(170);
+		text4.setFont(Font.font("Calibri Light", 15));
+		text4.setLayoutX(320);
+		text4.setLayoutY(170);
+		text5.setFont(Font.font("Calibri Light", 15));
+		text5.setLayoutX(180);
+		text5.setLayoutY(210);
+		passengerSubScene.getPane().getChildren().addAll(text, text2, text3, text4, text5, passengerSpinner, passengerSpinner2, passengerSpinner3, passengerSpinner4);
 	}	
 	
 // sub-scene for configuration
@@ -130,7 +167,7 @@ public class ViewManager {
 		configurationSubScene = new AircraftEvacSubScene();
 		mainPane.getChildren().add(configurationSubScene);
 		configurationSubScene.getPane().getChildren().addAll(createExitToChoose());
-		configurationSubScene.getPane().getChildren().add(createNextButton());
+		configurationSubScene.getPane().getChildren().add(createConfigurationNextButton());
 		configurationSubsceneLabel();
 	}
 	
@@ -180,7 +217,7 @@ public class ViewManager {
 		aircraftSubScene = new AircraftEvacSubScene();
 		mainPane.getChildren().add(aircraftSubScene);
 		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
-		aircraftSubScene.getPane().getChildren().add(createNextButton());
+		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
 		aircraftSubsceneLabel();	
 	}
 		
@@ -213,7 +250,7 @@ public class ViewManager {
 				}	
 			});
 		}
-		box.setLayoutX(64);
+		box.setLayoutX(34);
 		box.setLayoutY(50);
 		return box;
 	}
@@ -264,10 +301,8 @@ public class ViewManager {
 		aircraftButton.setOnAction( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				showSubScene(configurationSubScene);	
-//				showSubScene(aircraftSubScene);	
+				aircraftSubScene.moveSubScene();
 				
-
 			}	
 		});
 	}
@@ -280,9 +315,10 @@ public class ViewManager {
 		configurationButton.setOnAction( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				showSubScene(aircraftSubScene);
-//				showSubScene(configurationSubScene);
-			}	
+				configurationSubScene.moveSubScene();
+				
+			}
+			
 		});
 
 	}
@@ -295,9 +331,7 @@ public class ViewManager {
 		passengerButton.setOnAction( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-//				showSubScene(aircraftSubScene);	
-//				showSubScene(configurationSubScene);
-//				showSubScene(passengerSubScene);	
+				passengerSubScene.moveSubScene();	
 				
 			
 			}	
@@ -317,8 +351,9 @@ public class ViewManager {
 		});
 	}
 
-	private AircraftEvacSimButton createNextButton(){
-		
+// create next button for aircraft sub-scene
+	private AircraftEvacSimButton createAircraftNextButton(){
+			
 		AircraftEvacSimButton nextButton = new AircraftEvacSimButton("NEXT");
 		nextButton.setLayoutX(450);
 		nextButton.setLayoutY(350);
@@ -326,12 +361,28 @@ public class ViewManager {
 		nextButton.setOnAction( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-//				createConfigurationButton();
-				showSubScene(configurationSubScene);
+				aircraftSubScene.moveSubScene();
+			
 			}	
 		});
 		return nextButton;
-	}
+	}	
+		
+// create next button for aircraft sub-scene
+	private AircraftEvacSimButton createConfigurationNextButton(){			
+		AircraftEvacSimButton nextButton = new AircraftEvacSimButton("NEXT");
+		nextButton.setLayoutX(450);
+		nextButton.setLayoutY(350);
+		nextButton.setPrefSize(80, 20);
+		nextButton.setOnAction( new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				configurationSubScene.moveSubScene();
+					
+			}	
+		});
+		return nextButton;
+	}	
 	
 	private void createViewButton(){
 		AircraftEvacSimButton viewButton = new AircraftEvacSimButton("VIEW");
@@ -369,7 +420,6 @@ public class ViewManager {
 	
 	
 // create background
-	
 	private void createBackground(){
 		
 		Image backgroundImage = new Image("view/resources/background_image.jpg", 800,800,false,true);
@@ -377,8 +427,7 @@ public class ViewManager {
 		mainPane.setBackground(new Background(background));
 	}
 
-// create logo
-	
+// create logo	
 	private void createLogo(){
 		ImageView logo = new ImageView("/view/resources/aircraft_logo.png");
 		logo.setLayoutX(340);
