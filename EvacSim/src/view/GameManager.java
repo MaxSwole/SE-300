@@ -10,6 +10,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -48,6 +49,7 @@ public class GameManager {
 		gameStage.setTitle("Simulation");
 		gameStage.setResizable(false);
 		gameStage.setScene(gameScene);
+		gameStage.getIcons().add(new Image("view/resources/Icon.png"));
 		gameStage.show();
 		
 		// layerPane contains the playPane which is in the center borderPane
