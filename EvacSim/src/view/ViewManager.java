@@ -408,7 +408,7 @@ public class ViewManager {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					GameManager gameMan = new GameManager();
+					startGameSetup();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -416,6 +416,15 @@ public class ViewManager {
 				mainStage.close();
 			}	
 		});
+	}
+	
+	//To pass information to GameManager
+	//create a 'set' method in GameManager, then pass it through ViewManager here
+	private void startGameSetup() throws Exception {
+		GameManager gameMan = new GameManager();
+		gameMan.setPassengers((int) passengerSpinner.getValue());
+		gameMan.initializePassenger();
+		gameMan.gameLoop();
 	}
 	
 	
@@ -449,6 +458,10 @@ public class ViewManager {
 			}	
 		});
 		mainPane.getChildren().add(logo);
+	}
+	
+	public int getPassengerSpinner() {
+		return (int) passengerSpinner.getValue();
 	}
 	
 }

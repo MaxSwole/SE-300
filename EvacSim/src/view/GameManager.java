@@ -27,7 +27,7 @@ public class GameManager {
 	private AircraftDB aircraftDB = new AircraftDB();
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private double[][] seats = aircraftDB.getSeatCoordinates();
-	private int numOfPassengers = 50;
+	private int numOfPassengers;
 	
 	GameManager() throws Exception {
 		startStage(gameStage);
@@ -51,14 +51,8 @@ public class GameManager {
 		//Canvas is bound to the panes width and height
 		canvas.widthProperty().bind(pane.widthProperty());
 		canvas.heightProperty().bind(pane.heightProperty());
-		gameSetup();
-	}
 	
-	void gameSetup() {
-		initializePassenger();
-		gameLoop();
 	}
-	
 	
     public void gameLoop(){
         new AnimationTimer(){
@@ -80,6 +74,7 @@ public class GameManager {
     public void initializePassenger(){
         passengerList.clear();
         int j = 0;
+        System.out.println("************ " + numOfPassengers);
         for (int i = 0; i < numOfPassengers; i++) {
             Sprite passenger = new Sprite();
             passenger.setPositionX(seats[i][0] + 200);
@@ -96,6 +91,10 @@ public class GameManager {
     public int randomType(int min, int max) {
         int num = (int) (Math.random() * (max - min + 1) + min);
         return num;
+    }
+    
+    public void setPassengers(int num) {
+    	numOfPassengers = num;
     }
 
 }
