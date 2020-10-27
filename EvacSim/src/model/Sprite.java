@@ -1,4 +1,5 @@
 package model;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -6,119 +7,94 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-
 public class Sprite extends Circle {
 
-    private double positionX;
-    private double positionY;
-    private double velocityX;
-    private double velocityY;
-    private int type;
-    static final double MAXVELOCITY = 20;
-    static final double MASS = 10;
-    
+	// Constants; Mass essentially controls the 'speed' at which they move. Larger
+	// mass, slower speed (can be used for overweight passengers?).
+	static final double MAXVELOCITY = 20;
+	static final double MASS = 10;
+	static double ATTRACTION_DISTANCE_MIN = 5;
+	static double ATTRACTION_DISTANCE_MAX = 25.0;
+	static double GRAVITATIONAL_CONSTANT = 0.004;
+
+	// Vectors
 	private Point2D location;
 	private Point2D velocity;
 	private Point2D acceleration;
 
-    private double radius = 3.0;
+	// Raidus of all Circles
+	private double radius = 3.0;
 
-    public Sprite(){
-        positionX = 0;
-        positionY = 0;
-        velocityX = 0;
-        velocityY = 0;
-    }
+	// Empty Constructor
+	public Sprite() {
 
-    public Sprite(Point2D location, Point2D velocity, Point2D acceleration) {
-    	this.location = location;
-    	this.velocity = velocity;
-    	this.acceleration = acceleration;
-    	
-    	setRadius(radius);
-    	System.out.println(radius);
-    	
-    	type = randomType(0,2);
-    	if(type == 0){
+	}
 
-    		setStroke(Color.BROWN);
-            setFill(Color.BROWN);
-        }
-        else if(type == 1){
-            setStroke(Color.PURPLE);
-            setFill(Color.PURPLE);
-        }
-        else if(type == 2){
-            setStroke(Color.ORANGE);
-            setFill(Color.ORANGE);
-        }
-        else{
-            setStroke(Color.BLACK);
-            setFill(Color.BLACK);
-        }
-    }
+	// Basically the Sprite Constructor, but because of For loops in GameManager, it
+	// has to be it's own method.
+	public void parameters(Point2D location, Point2D velocity, Point2D acceleration, int type) {
+		this.location = location;
+		this.velocity = velocity;
+		this.acceleration = acceleration;
 
-    public void parameters(Point2D location, Point2D velocity, Point2D acceleration, int type) {
-    	this.location = location;
-    	this.velocity = velocity;
-    	this.acceleration = acceleration;
-    	
-    	setRadius(radius);
-    	
-    	if(type == 0){
+		setRadius(radius);
 
-    		setStroke(Color.BROWN);
-            setFill(Color.BROWN);
-        }
-        else if(type == 1){
-            setStroke(Color.PURPLE);
-            setFill(Color.PURPLE);
-        }
-        else if(type == 2){
-            setStroke(Color.ORANGE);
-            setFill(Color.ORANGE);
-        }
-        else{
-            setStroke(Color.BLACK);
-            setFill(Color.BLACK);
-        }
-    }
-    
-    public Point2D attract(Sprite exitSprite) {
+		if (type == 0) {
+
+			setStroke(Color.BROWN);
+			setFill(Color.BROWN);
+		} else if (type == 1) {
+			setStroke(Color.PURPLE);
+			setFill(Color.PURPLE);
+		} else if (type == 2) {
+			setStroke(Color.ORANGE);
+			setFill(Color.ORANGE);
+		} else {
+			setStroke(Color.BLACK);
+			setFill(Color.BLACK);
+		}
+	}
+
+	// How the passengers are attracted to the Exits
+	public Point2D attract(Sprite exitSprite) {
 
 		// force direction
 		Point2D force = location.subtract(exitSprite.location);
-		double distance = force.magnitude();
-		
+		// double distance = force.magnitude();
+
 		// constrain movement
-		//distance = constrain(distance, Settings.ATTRACTION_DISTANCE_MIN, Settings.ATTRACTION_DISTANCE_MAX);
-		
+		// distance = constrain(distance, ATTRACTION_DISTANCE_MIN,
+		// ATTRACTION_DISTANCE_MAX);
+
 		force = force.normalize();
 
 		// force magnitude
-		//double strength = (Settings.GRAVITATIONAL_CONSTANT * MASS * m.mass) / (distance * distance);
-		//force = force.multiply(strength);
+		// double strength = (GRAVITATIONAL_CONSTANT * MASS * exitSprite.MASS) /
+		// (distance * distance);
+		// force = force.multiply(strength);
 
 		return force;
 	}
-    
-    
+
+	// Applying force to the passengers (gonna have to make it a constant velocity I
+	// think)
 	public void applyForce(Point2D force) {
 
-		Point2D f = new Point2D( force.getX(), force.getY());
-		f = f.multiply(1/MASS);
-		
+		Point2D f = new Point2D(force.getX(), force.getY());
+		f = f.multiply(1 / MASS);
+
 		acceleration = acceleration.add(f);
 	}
-    
-    public void move() {
+
+	// The Core move function
+	public void move() {
 
 		// set velocity depending on acceleration
 		velocity = velocity.add(acceleration);
 
 		// limit velocity to max speed
 		double mag = velocity.magnitude();
-		if( mag > MAXVELOCITY) {
+		if (mag > MAXVELOCITY) {
 			velocity = velocity.normalize();
 			velocity = velocity.multiply(mag);
 		}
@@ -127,37 +103,27 @@ public class Sprite extends Circle {
 		location = location.add(velocity);
 
 		// clear acceleration
-		acceleration = new Point2D(0,0);
+		acceleration = new Point2D(0, 0);
 	}
 
+	// Sets x,y location; used in GameLoop
 	public void display() {
 		setCenterX(location.getX());
 		setCenterY(location.getY());
-	}	
-    
-    public int randomType(int min, int max) {
-        int num = (int) (Math.random() * (max - min + 1) + min);
-        return num;
-    }
+	}
 
-
-   
-
-    public double getPositionX(){
-        return positionX;
-    }
-
-    public double getPositionY() {
-        return positionY;
-    }
-
+	// Set vector location
 	public void setLocation(Point2D location) {
 		this.location = location;
-		
+
 	}
-	
+
+	// Change size of Circle (Exits are larger, will eventually be transparent)
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
-
+	
+	public void setVisible() {
+		setVisible(true);
+	}
 }

@@ -1,18 +1,21 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Duration;
 import model.AircraftDB;
 import model.Sprite;
 
@@ -20,164 +23,179 @@ public class GameManager {
 	final int WIDTH = 700;
 	final int LENGTH = 900;
 	
-	private Stage gameStage = new Stage();
-	private Canvas canvas = new Canvas();
 	private BorderPane borderPane = new BorderPane();
+	private Scene gameScene = new Scene(borderPane, WIDTH, LENGTH);
+	private Stage gameStage = new Stage();
 	private Pane playPane = new Pane();
 	private Pane layerPane = new Pane();
-	private Scene gameScene = new Scene(borderPane, WIDTH, LENGTH);
-	private GraphicsContext gc = canvas.getGraphicsContext2D();
-	private long lastNanoTime = System.nanoTime();
-	
+	private HBox bottomHBox = new HBox();
+	private Button pauseBt = new Button(), menuBt = new Button();
+	private AnimationTimer gameLoop;
+	private boolean isPaused = false;
+
 	private AircraftDB aircraftDB = new AircraftDB();
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
 	private double[][] seats = aircraftDB.getSeatCoordinates();
 	private int numOfPassengers;
-	//private double x,y;
+	private ViewManager viewMan = new ViewManager();
+
 	GameManager() throws Exception {
 		startStage(gameStage);
-		
 	}
 	
 	void startStage(Stage primaryStage) throws Exception{
-		//Setting gameStage Scene (contains the canvas, pane, BorderPane)
-		gameStage.setScene(gameScene);
-		gameStage.show();
 		gameStage.setTitle("Simulation");
 		gameStage.setResizable(false);
+		gameStage.setScene(gameScene);
+		gameStage.show();
 		
-		//BorderPane contains pane as center (allows for menu items on top)
-		borderPane.setCenter(layerPane);
-		
-		//Pane contains the Canvas
+		// layerPane contains the playPane which is in the center borderPane
 		layerPane.getChildren().add(playPane);
-		layerPane.setStyle("-fx-background-color: #96919e");
+		layerPane.setStyle("-fx-background-color: #FFFFE0");
+		borderPane.setCenter(layerPane);
+		buttonSetup();
 		
-		//Canvas is bound to the panes width and height
-		//canvas.widthProperty().bind(playPane.widthProperty());
-		//canvas.heightProperty().bind(playPane.heightProperty());
-	
+	}
+
+	public void gameLoop() {
+
+		// Displays for a few paused seconds so user can see configuration
+		// display() method is called so we set the circles to visible. They are now in
+		// correct position.
+		passengerList.forEach(Sprite::display);
+		passengerList.forEach(Sprite::setVisible);
+		PauseTransition pause = new PauseTransition(Duration.seconds(3.0));
+		pause.setOnFinished(e -> gameLoop.start());
+		pause.play();
+
+		// Once pause is finished, starts the below gameLoop
+		gameLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+
+				// Loop through the passengerList and attract all passengers to exits
+				for (Sprite sp1 : passengerList) {
+					Point2D force = exitList.get(0).attract(sp1);
+					// Point2D force = sp1.attract(exitList.get(0));
+					sp1.applyForce(force);
+				}
+
+				// Display and move the passengers
+				passengerList.forEach(Sprite::display);
+				passengerList.forEach(Sprite::move);
+
+			}
+		};
+
+	}
+
+	public void addPassengers() {
+		// Declaring Variables and clearing list to ensure its empty
+		int i = 0, j = 0;
+		double x, y;
+		passengerList.clear();
+
+		// Loop through the list and assign x seat and y seat coordinates
+		for (i = 0; i < numOfPassengers; i++) {
+			x = seats[i][0] + 200;
+			Sprite passenger = new Sprite();
+			for (j = 0; j < seats[i].length; j++) {
+				y = seats[i][j] + 200;
+				Point2D location = new Point2D(x, y);
+				Point2D velocity = new Point2D(0, 0);
+				Point2D acceleration = new Point2D(0, 0);
+				passenger.parameters(location, velocity, acceleration, randomType(0, 2));
+
+			}
+			// Adds passengers to list, and sets them invisible since they are currently
+			// positioned at 0,0 until the display() method is called.
+			passengerList.add(passenger);
+			passenger.setVisible(false);
+			playPane.getChildren().add(passenger);
+
+		}
+
+	}
+
+	// adds the user defined number of passengers
+	public void initializePassenger() {
+		for (int i = 0; i < numOfPassengers; i++) {
+			addPassengers();
+		}
+
+		// adds exits
+		addExits();
+	}
+
+	// Adds exits, exits still need to be derived from coordinates.
+	// Need more than one exit
+	public void addExits() {
+		double x = 200;
+		double y = 400;
+
+		Sprite exit = new Sprite();
+		exit.setRadius(10);
+		Point2D location = new Point2D(x, y);
+		Point2D velocity = new Point2D(0, 0);
+		Point2D acceleration = new Point2D(0, 0);
+		exit.parameters(location, velocity, acceleration, 25);
+		exit.display();
+		exitList.add(exit);
+		playPane.getChildren().add(exit);
+
 	}
 	
-    public void gameLoop(){
-        new AnimationTimer(){
-            @Override
-            public void handle(long currentNanoTime) {
-                double elapsedTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
-                lastNanoTime = currentNanoTime;
-                //passengerList.forEach(sprite -> sprite.setPositionX(sprite.getPositionX()+10));
-                //passengerList.forEach(sprite -> sprite.setPositionY(sprite.getPositionY()+10));
-                //passengerList.forEach(sprite -> sprite.update(elapsedTime));
-                //gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                //passengerList.forEach(Sprite::display);
-                //passengerList.forEach(playPane.getChildren().add(passenger));
-                    
-                for(Sprite sp1 : passengerList) {
-                	Point2D force = exitList.get(0).attract(sp1);
-                	sp1.applyForce(force);
-                }
-                
-                passengerList.forEach(Sprite::move);
-                passengerList.forEach(Sprite::display);
-       
-            }
-        }.start();
-    }
-    
-    public void addPassengers() {
-    	int i = 0, j = 0;
-    	double x,y;
-    	passengerList.clear();
-    	
-    	for(i = 0; i < numOfPassengers; i++) {
-    		x = seats[i][0] + 200;
-    		Sprite passenger = new Sprite();
-    		for (j = 0; j < seats[i].length; j++) {
-            	y = seats[i][j] + 200;
-            	Point2D location = new Point2D(x, y);
-            	Point2D velocity = new Point2D(0,0);
-            	Point2D acceleration = new Point2D(0,0);
-            	passenger.parameters(location, velocity, acceleration, randomType(0,2));
-         
-            }
-    		//passenger.display();
-    		passengerList.add(passenger);
-    		playPane.getChildren().add(passenger);
-    	}
-    	
-    }
-    
-    public void initializePassenger(){
-    	for(int i = 0; i < numOfPassengers; i++) {
-    		addPassengers();
-    	}
-    	
-    	addExits();
-    	
-    	
-    	
-    	/*int j = 0;
-    	
-    	//Clears the list to run the simulation again if needed (no longer a functionality of the program, but it could be)
-        passengerList.clear();
-        
-        //Prints number of passengers to console for testing
-        System.out.println("************ " + numOfPassengers);
-        
-        //Adds a passenger to the passengerList for as many specified by the user
-        for (int i = 0; i < numOfPassengers; i++) {
-          	
-            Sprite passenger = new Sprite();
-            x = seats[i][0] + 200;
+	
+	public void buttonSetup() {
+		// Setting up HBox with Pause and Menu buttons
+		pauseBt.setText("Pause Simulation");
+		pauseBt.setOnAction(e -> pauseSimulation());
 
-            //System.out.println(passenger.getPositionX());
-            for (j = 0; j < seats[i].length; j++) {
-            	y = seats[i][j] + 100;
-            	Point2D location = new Point2D(x, y);
-            	System.out.println(location.getX() + " " + location.getY());
-            	passenger.setLocation(location);
-            	passenger.display();
-                //System.out.println(seats[i][j]);
-            }
-            
-            //Sprite Data
-            //Point2D location = new Point2D(x, y);
-    		Point2D velocity = new Point2D(0, 0);
-    		Point2D acceleration = new Point2D(0, 0);
-                   
-            //passenger.setType(randomType(0, 2));
-            //passenger.setLocation(location);
-            passengerList.add(passenger);
-            playPane.getChildren().add(passenger);
-        }
-        */
-    }
-    
-    public void addExits() {
-    	double x = 200;
-    	double y = 400;
-    	
-    	
-    	Sprite exit = new Sprite();
-    	exit.setRadius(10);
-    	Point2D location = new Point2D(x, y);
-    	Point2D velocity = new Point2D(0,0);
-    	Point2D acceleration = new Point2D(0,0);
-    	exit.parameters(location, velocity, acceleration, 25);
-    	exit.display();
-    	exitList.add(exit);
-    	playPane.getChildren().add(exit);
-    	
-    }
+		menuBt.setText("Main Menu");
+		menuBt.setOnAction(e -> switchMenu());
 
-    public int randomType(int min, int max) {
-        int num = (int) (Math.random() * (max - min + 1) + min);
-        return num;
-    }
-    
-    public void setPassengers(int num) {
-    	numOfPassengers = num;
-    }
+		bottomHBox.setAlignment(Pos.CENTER);
+		bottomHBox.setPadding(new Insets(0, 10, 10, 0));
+		bottomHBox.setMargin(menuBt, new Insets(0, 10, 0, 0));
+		bottomHBox.setMargin(pauseBt, new Insets(0, 10, 0, 0));
+		bottomHBox.setStyle("-fx-background-color: #FFFFE0");
+		bottomHBox.getChildren().addAll(pauseBt, menuBt);
+		borderPane.setBottom(bottomHBox);
+	}
+	
+	public void switchMenu() {
+		//System.exit(0);
+		gameStage.close();
+		viewMan.startViewManager();
+		
+	}
 
+	public void pauseSimulation() {
+		if (isPaused == false) {
+			gameLoop.stop();
+			isPaused = true;
+			System.out.println("Is Paused");
+		} else {
+			gameLoop.start();
+			isPaused = false;
+			System.out.println("Is NOT Paused");
+		}
+	}
+	
+	public BorderPane getBorderPane() {
+		return borderPane;
+	}
+
+	// Random Method to define the 'type' of passenger.
+	public int randomType(int min, int max) {
+		int num = (int) (Math.random() * (max - min + 1) + min);
+		return num;
+	}
+
+	// Sets the number of passengers
+	public void setPassengers(int num) {
+		numOfPassengers = num;
+	}
+	
 }
