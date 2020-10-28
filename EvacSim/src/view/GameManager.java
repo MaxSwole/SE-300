@@ -134,7 +134,7 @@ public class GameManager {
 	// Need more than one exit
 	public void addExits() {
 		double x = 200;
-		double y = 400;
+		double y = 100;
 
 		Sprite exit = new Sprite();
 		exit.setRadius(10);
