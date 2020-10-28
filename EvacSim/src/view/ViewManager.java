@@ -90,6 +90,7 @@ public class ViewManager {
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane, width, height);
 		mainStage = new Stage();
+		mainStage.getIcons().add(new Image("view/resources/Icon.png"));
 		mainStage.setScene(mainScene);
 		mainStage.setTitle("Aircraft Evacuation Simulator");
 		mainStage.show();
