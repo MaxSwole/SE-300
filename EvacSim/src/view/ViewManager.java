@@ -124,32 +124,40 @@ public class ViewManager {
 		passengerSubsceneLabel();
 	}
 
-	
-	private int numbOfPassenger() {
-		int numbOfPassenger = 40;
-		
+// set passenger count for passengerSpinner	
+	private void numbOfPassenger() {
 		if(choosenAircraft == choosenAircraft.airbus) {
 			System.out.print("fuck");
-			numbOfPassenger = 5;
+			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
+
 		}
 		else if(choosenAircraft == choosenAircraft.bombardier) {
 			System.out.print("DUCK");
-			numbOfPassenger = 10;
+			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
+		}
+		else if(choosenAircraft == choosenAircraft.embraer) {
+			System.out.print("Oops");
+			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 69);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
 		}
 		
-		
-		return numbOfPassenger;
 	}
 
 	
 // label for passenger sub-scene 	
 	private void passengerSubsceneLabel() {
-		SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
-				numOfPassengers);
-		passengerSpinner.setValueFactory(passengerSpinnerValue);
-		passengerSpinner.setPrefSize(60, 30);
-		passengerSpinner.setLayoutX(95);
-		passengerSpinner.setLayoutY(85);		
+		
 		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
 		passengerSpinner2.setValueFactory(passengerSpinnerValue2);
 		passengerSpinner2.setPrefSize(60, 20);
