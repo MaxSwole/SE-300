@@ -99,7 +99,7 @@ public class ViewManager {
 		createLogo();
 	}
 
-	private void showSubScene(AircraftEvacSubScene subScene) {
+	private void showSubScene(AircraftEvacSubScene subScene) {	
 		if (sceneToHide != null) {
 			sceneToHide.moveSubScene();
 		}
@@ -124,6 +124,24 @@ public class ViewManager {
 		passengerSubsceneLabel();
 	}
 
+	
+	private int numbOfPassenger() {
+		int numbOfPassenger = 40;
+		
+		if(choosenAircraft == choosenAircraft.airbus) {
+			System.out.print("fuck");
+			numbOfPassenger = 5;
+		}
+		else if(choosenAircraft == choosenAircraft.bombardier) {
+			System.out.print("DUCK");
+			numbOfPassenger = 10;
+		}
+		
+		
+		return numbOfPassenger;
+	}
+
+	
 // label for passenger sub-scene 	
 	private void passengerSubsceneLabel() {
 		SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
@@ -131,7 +149,7 @@ public class ViewManager {
 		passengerSpinner.setValueFactory(passengerSpinnerValue);
 		passengerSpinner.setPrefSize(60, 30);
 		passengerSpinner.setLayoutX(95);
-		passengerSpinner.setLayoutY(85);
+		passengerSpinner.setLayoutY(85);		
 		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
 		passengerSpinner2.setValueFactory(passengerSpinnerValue2);
 		passengerSpinner2.setPrefSize(60, 20);
@@ -257,7 +275,12 @@ public class ViewManager {
 					}
 					aircraftToPick.setIsCircleChoosen(true);
 					choosenAircraft = aircraftToPick.getAircraft();
+					
+					numbOfPassenger();
+				
 				}
+				
+				
 			});
 		}
 		box.setLayoutX(34);
@@ -282,6 +305,7 @@ public class ViewManager {
 		createPassengerButton();
 		createExitButton();
 		createStartButton();
+		createResetButton();
 	}
 
 // create your buttons	
@@ -293,9 +317,7 @@ public class ViewManager {
 		aircraftButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				aircraftSubScene.moveSubScene();
-				
-
+				showSubScene(configurationSubScene);
 			}
 		});
 	}
@@ -308,11 +330,10 @@ public class ViewManager {
 		configurationButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				configurationSubScene.moveSubScene();
-				
+				showSubScene(aircraftSubScene);
 				
 			}
-
+			
 		});
 
 	}
@@ -325,9 +346,7 @@ public class ViewManager {
 		passengerButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				passengerSubScene.moveSubScene();
-				
-
+				configurationSubScene.moveSubScene();
 			}
 		});
 	}
@@ -378,14 +397,17 @@ public class ViewManager {
 		return nextButton;
 	}
 
-	private void createViewButton() {
-		AircraftEvacSimButton viewButton = new AircraftEvacSimButton("VIEW");
-		addMenuButton(viewButton);
-
-		viewButton.setOnAction(new EventHandler<ActionEvent>() {
+	private void createResetButton() {
+		AircraftEvacSimButton resetButton = new AircraftEvacSimButton("RESET");
+//		addMenuButton(resetButton);
+		resetButton.setLayoutX(240);
+		resetButton.setLayoutY(580);
+		resetButton.setPrefSize(70, 10);
+		mainPane.getChildren().add(resetButton);
+		resetButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+				createSubScenes();
 			}
 		});
 	}
