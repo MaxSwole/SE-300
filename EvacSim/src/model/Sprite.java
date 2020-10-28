@@ -12,7 +12,7 @@ public class Sprite extends Circle {
 	// Constants; Mass essentially controls the 'speed' at which they move. Larger
 	// mass, slower speed (can be used for overweight passengers?).
 	static final double MAXVELOCITY = 20;
-	static final double MASS = 10;
+	double MASS = 10;
 	static double ATTRACTION_DISTANCE_MIN = 5;
 	static double ATTRACTION_DISTANCE_MAX = 25.0;
 	static double GRAVITATIONAL_CONSTANT = 0.004;
@@ -21,6 +21,7 @@ public class Sprite extends Circle {
 	private Point2D location;
 	private Point2D velocity;
 	private Point2D acceleration;
+	private int type;
 
 	// Raidus of all Circles
 	private double radius = 3.0;
@@ -36,8 +37,10 @@ public class Sprite extends Circle {
 		this.location = location;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
+		this.type = type;
 
 		setRadius(radius);
+		setStyle("-fx-padding: 10 10 10 10;");
 
 		if (type == 0) {
 
@@ -46,9 +49,15 @@ public class Sprite extends Circle {
 		} else if (type == 1) {
 			setStroke(Color.PURPLE);
 			setFill(Color.PURPLE);
+			
+			//Different Weight for different type
+			MASS += 10;
 		} else if (type == 2) {
 			setStroke(Color.ORANGE);
 			setFill(Color.ORANGE);
+			
+			//Different Weight for different type
+			MASS += 15;
 		} else {
 			setStroke(Color.BLACK);
 			setFill(Color.BLACK);
@@ -82,7 +91,6 @@ public class Sprite extends Circle {
 
 		Point2D f = new Point2D(force.getX(), force.getY());
 		f = f.multiply(1 / MASS);
-
 		acceleration = acceleration.add(f);
 	}
 
