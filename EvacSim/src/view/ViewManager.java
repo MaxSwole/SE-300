@@ -450,7 +450,7 @@ public class ViewManager {
 		mainStage.close();
 		
 		//Sets number of passengers in gameManager, and setup passengers
-		gameMan.setPassengers((int) passengerSpinner.getValue());
+		//gameMan.setPassengers((int) passengerSpinner.getValue());
 		gameMan.initializePassenger();
 		
 		//Starts the gameLoop, this is the animation

@@ -23,7 +23,7 @@ import model.Sprite;
 public class GameManager {
 	final int WIDTH = 700;
 	final int LENGTH = 900;
-	
+
 	private BorderPane borderPane = new BorderPane();
 	private Scene gameScene = new Scene(borderPane, WIDTH, LENGTH);
 	private Stage gameStage = new Stage();
@@ -38,26 +38,27 @@ public class GameManager {
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
 	private double[][] seats = aircraftDB.getSeatCoordinates();
-	private int numOfPassengers;
+	private int numOfPassengers = 50;
 	private ViewManager viewMan = new ViewManager();
+	int attractIndex = 0;
 
 	GameManager() throws Exception {
 		startStage(gameStage);
 	}
-	
-	void startStage(Stage primaryStage) throws Exception{
+
+	void startStage(Stage primaryStage) throws Exception {
 		gameStage.setTitle("Simulation");
 		gameStage.setResizable(false);
 		gameStage.setScene(gameScene);
 		gameStage.getIcons().add(new Image("view/resources/Icon.png"));
 		gameStage.show();
-		
+
 		// layerPane contains the playPane which is in the center borderPane
 		layerPane.getChildren().add(playPane);
 		layerPane.setStyle("-fx-background-color: #FFFFE0");
 		borderPane.setCenter(layerPane);
 		buttonSetup();
-		
+
 	}
 
 	public void gameLoop() {
@@ -78,8 +79,10 @@ public class GameManager {
 
 				// Loop through the passengerList and attract all passengers to exits
 				for (Sprite sp1 : passengerList) {
-					Point2D force = exitList.get(0).attract(sp1);
-					// Point2D force = sp1.attract(exitList.get(0));
+					attractIndex = sp1.nearestExit(exitList);
+					sp1.setExitLocation(exitList.get(attractIndex).getLocation());
+					//System.out.println(attractIndex);
+					Point2D force = exitList.get(attractIndex).attract(sp1);
 					sp1.applyForce(force);
 				}
 
@@ -127,14 +130,16 @@ public class GameManager {
 		}
 
 		// adds exits
-		addExits();
+		addExits(225,350);
+		addExits(225,450);
+		addExits(400,350);
+		addExits(400,450);
 	}
 
 	// Adds exits, exits still need to be derived from coordinates.
 	// Need more than one exit
-	public void addExits() {
-		double x = 200;
-		double y = 400;
+	public void addExits(double x, double y) {
+
 
 		Sprite exit = new Sprite();
 		exit.setRadius(10);
@@ -147,8 +152,7 @@ public class GameManager {
 		playPane.getChildren().add(exit);
 
 	}
-	
-	
+
 	public void buttonSetup() {
 		// Setting up HBox with Pause and Menu buttons
 		pauseBt.setText("Pause Simulation");
@@ -165,12 +169,12 @@ public class GameManager {
 		bottomHBox.getChildren().addAll(pauseBt, menuBt);
 		borderPane.setBottom(bottomHBox);
 	}
-	
+
 	public void switchMenu() {
-		//System.exit(0);
+		// System.exit(0);
 		gameStage.close();
 		viewMan.startViewManager();
-		
+
 	}
 
 	public void pauseSimulation() {
@@ -184,7 +188,7 @@ public class GameManager {
 			System.out.println("Is NOT Paused");
 		}
 	}
-	
+
 	public BorderPane getBorderPane() {
 		return borderPane;
 	}
@@ -199,5 +203,5 @@ public class GameManager {
 	public void setPassengers(int num) {
 		numOfPassengers = num;
 	}
-	
+
 }

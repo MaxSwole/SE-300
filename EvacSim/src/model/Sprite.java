@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,6 +23,7 @@ public class Sprite extends Circle {
 	private Point2D location;
 	private Point2D velocity;
 	private Point2D acceleration;
+	private Point2D exitLocation;
 	private int type;
 
 	// Raidus of all Circles
@@ -49,14 +52,14 @@ public class Sprite extends Circle {
 		} else if (type == 1) {
 			setStroke(Color.PURPLE);
 			setFill(Color.PURPLE);
-			
-			//Different Weight for different type
+
+			// Different Weight for different type
 			MASS += 10;
 		} else if (type == 2) {
 			setStroke(Color.ORANGE);
 			setFill(Color.ORANGE);
-			
-			//Different Weight for different type
+
+			// Different Weight for different type
 			MASS += 15;
 		} else {
 			setStroke(Color.BLACK);
@@ -88,36 +91,65 @@ public class Sprite extends Circle {
 	// Applying force to the passengers (gonna have to make it a constant velocity I
 	// think)
 	public void applyForce(Point2D force) {
-
 		Point2D f = new Point2D(force.getX(), force.getY());
 		f = f.multiply(1 / MASS);
 		acceleration = acceleration.add(f);
+
 	}
 
 	// The Core move function
 	public void move() {
+		this.exitLocation = exitLocation;
+		
+		if (exitLocation.distance(location) < 5) {
+			velocity = new Point2D(0, 0);
+			acceleration = new Point2D(0, 0);
+			location = exitLocation;
 
-		// set velocity depending on acceleration
-		velocity = velocity.add(acceleration);
+		} else {
 
-		// limit velocity to max speed
-		double mag = velocity.magnitude();
-		if (mag > MAXVELOCITY) {
-			velocity = velocity.normalize();
-			velocity = velocity.multiply(mag);
+			// set velocity depending on acceleration
+			velocity = velocity.add(acceleration);
+
+			// limit velocity to max speed
+			double mag = velocity.magnitude();
+			if (mag > MAXVELOCITY) {
+				velocity = velocity.normalize();
+				velocity = velocity.multiply(mag);
+			}
+
+			// change location depending on velocity
+			location = location.add(velocity);
+
+			// clear acceleration
+			acceleration = new Point2D(0, 0);
 		}
-
-		// change location depending on velocity
-		location = location.add(velocity);
-
-		// clear acceleration
-		acceleration = new Point2D(0, 0);
 	}
 
 	// Sets x,y location; used in GameLoop
 	public void display() {
 		setCenterX(location.getX());
 		setCenterY(location.getY());
+	}
+	
+	public int nearestExit(ArrayList<Sprite> exitList) {
+		int listIndex = 0;
+		
+		Point2D tempExit, currentExit;
+		
+		for(int i = 0; i < exitList.size(); i++) {
+			currentExit = exitList.get(listIndex).getLocation();
+			tempExit = exitList.get(i).getLocation();
+		
+			if(currentExit.distance(location) > tempExit.distance(location)) {
+				listIndex = i;
+				System.out.println(listIndex);
+				System.out.println("TRUE");
+			}
+			
+		}
+		
+		return listIndex;
 	}
 
 	// Set vector location
@@ -131,7 +163,17 @@ public class Sprite extends Circle {
 		this.radius = radius;
 	}
 	
+
 	public void setVisible() {
 		setVisible(true);
+	}
+	
+	public Point2D getLocation() {
+		return location;
+	}
+
+	public void setExitLocation(Point2D exitLocation) {
+		this.exitLocation = exitLocation;
+		
 	}
 }
