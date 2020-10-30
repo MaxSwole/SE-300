@@ -13,7 +13,7 @@ public class Sprite extends Circle {
 
 	// Constants; Mass essentially controls the 'speed' at which they move. Larger
 	// mass, slower speed (can be used for overweight passengers?).
-	static final double MAXVELOCITY = 20;
+	static final double MAXVELOCITY = 1;
 	double MASS = 10;
 	static double ATTRACTION_DISTANCE_MIN = 5;
 	static double ATTRACTION_DISTANCE_MAX = 25.0;
@@ -24,9 +24,11 @@ public class Sprite extends Circle {
 	private Point2D velocity;
 	private Point2D acceleration;
 	private Point2D exitLocation;
+	private Point2D seperateForce = new Point2D(0,0);
 	private int type;
+	private boolean atExit = false;
 
-	// Raidus of all Circles
+	// Radius of all Circles
 	private double radius = 3.0;
 
 	// Empty Constructor
@@ -43,7 +45,6 @@ public class Sprite extends Circle {
 		this.type = type;
 
 		setRadius(radius);
-		setStyle("-fx-padding: 10 10 10 10;");
 
 		if (type == 0) {
 
@@ -72,19 +73,20 @@ public class Sprite extends Circle {
 
 		// force direction
 		Point2D force = location.subtract(exitSprite.location);
-		// double distance = force.magnitude();
+		//double distance = force.magnitude();
 
 		// constrain movement
-		// distance = constrain(distance, ATTRACTION_DISTANCE_MIN,
+		//distance = constrain(distance, ATTRACTION_DISTANCE_MIN,
 		// ATTRACTION_DISTANCE_MAX);
 
 		force = force.normalize();
 
 		// force magnitude
-		// double strength = (GRAVITATIONAL_CONSTANT * MASS * exitSprite.MASS) /
-		// (distance * distance);
-		// force = force.multiply(strength);
-
+		//double strength = (GRAVITATIONAL_CONSTANT * MASS * MASS) /
+		//(distance * distance);
+		
+		//force = force.multiply(strength);
+		
 		return force;
 	}
 
@@ -92,19 +94,20 @@ public class Sprite extends Circle {
 	// think)
 	public void applyForce(Point2D force) {
 		Point2D f = new Point2D(force.getX(), force.getY());
-		f = f.multiply(1 / MASS);
+		//f = f.multiply(1 / MASS);
 		acceleration = acceleration.add(f);
 
 	}
 
 	// The Core move function
 	public void move() {
-		this.exitLocation = exitLocation;
 		
 		if (exitLocation.distance(location) < 5) {
 			velocity = new Point2D(0, 0);
 			acceleration = new Point2D(0, 0);
 			location = exitLocation;
+			atExit = true;
+			
 
 		} else {
 
@@ -113,9 +116,12 @@ public class Sprite extends Circle {
 
 			// limit velocity to max speed
 			double mag = velocity.magnitude();
+			
 			if (mag > MAXVELOCITY) {
 				velocity = velocity.normalize();
-				velocity = velocity.multiply(mag);
+				
+				//velocity = velocity.multiply(mag);
+				//System.out.println("multiples" + velocity);
 			}
 
 			// change location depending on velocity
@@ -123,6 +129,7 @@ public class Sprite extends Circle {
 
 			// clear acceleration
 			acceleration = new Point2D(0, 0);
+			seperateForce = new Point2D(0, 0);
 		}
 	}
 
@@ -131,6 +138,34 @@ public class Sprite extends Circle {
 		setCenterX(location.getX());
 		setCenterY(location.getY());
 	}
+	
+	public void seperate(ArrayList<Sprite> passengerList) {
+		double desiredSeperation = 6;
+		double i = 0;
+		Point2D sum = new Point2D(0,0), sumResult = new Point2D(0,0);
+		
+		for(Sprite other : passengerList) {
+			double distance = location.distance(other.location);
+			
+			if((distance > 0) && (distance < desiredSeperation)) {
+				Point2D diff = location.subtract(other.location);
+				diff.normalize();
+				sumResult = sum.add(diff);
+				i++;
+				
+			}
+		}
+		if(i > 0) {
+			double x, y;
+			x = sumResult.getX()/i;
+			y = sumResult.getY()/i;
+			
+			Point2D newSum = new Point2D(x, y);
+			applyForce(newSum);
+					
+		}	
+	}
+
 	
 	public int nearestExit(ArrayList<Sprite> exitList) {
 		int listIndex = 0;
@@ -143,8 +178,6 @@ public class Sprite extends Circle {
 		
 			if(currentExit.distance(location) > tempExit.distance(location)) {
 				listIndex = i;
-				System.out.println(listIndex);
-				System.out.println("TRUE");
 			}
 			
 		}
@@ -176,4 +209,9 @@ public class Sprite extends Circle {
 		this.exitLocation = exitLocation;
 		
 	}
+	
+	public boolean getAtExit() {
+		return atExit;
+	}
+
 }

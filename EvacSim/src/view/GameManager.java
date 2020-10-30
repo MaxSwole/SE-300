@@ -76,19 +76,26 @@ public class GameManager {
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-
+		
 				// Loop through the passengerList and attract all passengers to exits
 				for (Sprite sp1 : passengerList) {
 					attractIndex = sp1.nearestExit(exitList);
 					sp1.setExitLocation(exitList.get(attractIndex).getLocation());
-					//System.out.println(attractIndex);
+					
 					Point2D force = exitList.get(attractIndex).attract(sp1);
+					sp1.seperate(passengerList);
 					sp1.applyForce(force);
+					
 				}
 
 				// Display and move the passengers
 				passengerList.forEach(Sprite::display);
 				passengerList.forEach(Sprite::move);
+				for(int i = 0; i < passengerList.size(); i++) {
+					if(passengerList.get(i).getAtExit() == true) {
+						playPane.getChildren().remove(passengerList.get(i));
+					}
+				}
 
 			}
 		};
@@ -130,19 +137,18 @@ public class GameManager {
 		}
 
 		// adds exits
-		addExits(225,350);
-		addExits(225,450);
-		addExits(400,350);
-		addExits(400,450);
+		addExits(225, 350);
+		addExits(225, 450);
+		addExits(400, 350);
+		addExits(400, 450);
 	}
 
 	// Adds exits, exits still need to be derived from coordinates.
 	// Need more than one exit
 	public void addExits(double x, double y) {
 
-
 		Sprite exit = new Sprite();
-		exit.setRadius(10);
+		exit.setRadius(5);
 		Point2D location = new Point2D(x, y);
 		Point2D velocity = new Point2D(0, 0);
 		Point2D acceleration = new Point2D(0, 0);
@@ -173,6 +179,7 @@ public class GameManager {
 	public void switchMenu() {
 		// System.exit(0);
 		gameStage.close();
+		gameLoop.stop();
 		viewMan.startViewManager();
 
 	}
