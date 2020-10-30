@@ -102,11 +102,12 @@ public class Sprite extends Circle {
 	// The Core move function
 	public void move() {
 		
-		if (exitLocation.distance(location) < 5) {
+		if (exitLocation.distance(location) < 7) {
 			velocity = new Point2D(0, 0);
 			acceleration = new Point2D(0, 0);
 			location = exitLocation;
 			atExit = true;
+			setVisible(false);
 			
 
 		} else {
