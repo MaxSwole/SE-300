@@ -161,26 +161,37 @@ public class Sprite extends Circle {
 		}	
 	}
 	
-	public void walls() {
-		if(location.getX() >= 500) {
+	public void walls(ArrayList<Sprite> exitList) {
+	
+		//Exit One Wall
+		/*
+		if(location.getX() <= 224 && location.getY() >=351) {
+			Point2D desired = new Point2D(MAXVELOCITY, MAXVELOCITY);
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
+		*/
+		
+		//Sets right wall
+		if(location.getX() >= 410) {
+			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
+			Point2D steer = velocity.subtract(desired);
+			applyForce(steer);
+		}
+		//Sets left wall
+		if(location.getX() <= 220) {
 			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
 			Point2D steer = desired.subtract(velocity);
 			applyForce(steer);
 		}
-		
-		if(location.getX() <= 100) {
-			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
-			Point2D steer = desired.subtract(velocity);
-			applyForce(steer);
-		}
-		
-		if(location.getY() >= 700) {
+		//Sets Bottom wall
+		if(location.getY() >= 500) {
 			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
-			Point2D steer = desired.subtract(velocity);
+			Point2D steer = velocity.subtract(desired);
 			applyForce(steer);
 		}
-		
-		if(location.getY() <= 100) {
+		//Sets top wall
+		if(location.getY() <= 300) {
 			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
 			Point2D steer = desired.subtract(velocity);
 			applyForce(steer);

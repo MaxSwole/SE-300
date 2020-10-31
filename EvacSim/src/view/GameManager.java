@@ -91,7 +91,7 @@ public class GameManager {
 					
 					Point2D force = exitList.get(attractIndex).attract(sp1);
 					sp1.seperate(passengerList);
-					sp1.walls();
+					sp1.walls(exitList);
 					sp1.applyForce(force);
 					
 				}
