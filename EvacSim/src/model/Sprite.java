@@ -12,9 +12,9 @@ import javafx.scene.shape.Rectangle;
 public class Sprite extends Circle {
 
 	// Constants; Mass essentially controls the 'speed' at which they move. Larger
-	// mass, slower speed (can be used for overweight passengers?).
-	static final double MAXVELOCITY = 1;
-	double MASS = 10;
+	// mass, slower speed
+	static final double MAXVELOCITY = 3;
+	double MASS;
 	static double ATTRACTION_DISTANCE_MIN = 5;
 	static double ATTRACTION_DISTANCE_MAX = 25.0;
 	static double GRAVITATIONAL_CONSTANT = 0.004;
@@ -24,8 +24,6 @@ public class Sprite extends Circle {
 	private Point2D velocity;
 	private Point2D acceleration;
 	private Point2D exitLocation;
-	private Point2D seperateForce = new Point2D(0,0);
-	private int type;
 	private boolean atExit = false;
 
 	// Radius of all Circles
@@ -42,30 +40,31 @@ public class Sprite extends Circle {
 		this.location = location;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
-		this.type = type;
 
 		setRadius(radius);
-
+		
 		if (type == 0) {
 
 			setStroke(Color.BROWN);
 			setFill(Color.BROWN);
+			MASS = 20;
 		} else if (type == 1) {
 			setStroke(Color.PURPLE);
 			setFill(Color.PURPLE);
 
 			// Different Weight for different type
-			MASS += 10;
+			MASS = 75;
 		} else if (type == 2) {
 			setStroke(Color.ORANGE);
 			setFill(Color.ORANGE);
 
 			// Different Weight for different type
-			MASS += 15;
+			MASS = 150;
 		} else {
 			setStroke(Color.BLACK);
 			setFill(Color.BLACK);
 		}
+		//System.out.println(MASS);
 	}
 
 	// How the passengers are attracted to the Exits
@@ -94,21 +93,19 @@ public class Sprite extends Circle {
 	// think)
 	public void applyForce(Point2D force) {
 		Point2D f = new Point2D(force.getX(), force.getY());
-		//f = f.multiply(1 / MASS);
+		f = f.multiply(1 / MASS);
+		//f = f.multiply(MASS);
 		acceleration = acceleration.add(f);
 
 	}
 
 	// The Core move function
 	public void move() {
-		
-		if (exitLocation.distance(location) < 7) {
+		if (exitLocation.distance(location) < 10) {
 			velocity = new Point2D(0, 0);
 			acceleration = new Point2D(0, 0);
 			location = exitLocation;
-			atExit = true;
-			setVisible(false);
-			
+			atExit = true;			
 
 		} else {
 
@@ -120,9 +117,7 @@ public class Sprite extends Circle {
 			
 			if (mag > MAXVELOCITY) {
 				velocity = velocity.normalize();
-				
-				//velocity = velocity.multiply(mag);
-				//System.out.println("multiples" + velocity);
+				velocity = velocity.multiply(MAXVELOCITY);
 			}
 
 			// change location depending on velocity
@@ -130,7 +125,6 @@ public class Sprite extends Circle {
 
 			// clear acceleration
 			acceleration = new Point2D(0, 0);
-			seperateForce = new Point2D(0, 0);
 		}
 	}
 
@@ -141,7 +135,7 @@ public class Sprite extends Circle {
 	}
 	
 	public void seperate(ArrayList<Sprite> passengerList) {
-		double desiredSeperation = 6;
+		double desiredSeperation = 7;
 		double i = 0;
 		Point2D sum = new Point2D(0,0), sumResult = new Point2D(0,0);
 		
@@ -165,6 +159,32 @@ public class Sprite extends Circle {
 			applyForce(newSum);
 					
 		}	
+	}
+	
+	public void walls() {
+		if(location.getX() >= 500) {
+			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
+		
+		if(location.getX() <= 100) {
+			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
+		
+		if(location.getY() >= 700) {
+			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
+		
+		if(location.getY() <= 100) {
+			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
 	}
 
 	

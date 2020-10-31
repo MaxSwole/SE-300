@@ -10,10 +10,13 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -30,6 +33,7 @@ public class GameManager {
 	private Pane playPane = new Pane();
 	private Pane layerPane = new Pane();
 	private HBox bottomHBox = new HBox();
+	private Button timeLabel = new Button();
 	private Button pauseBt = new Button(), menuBt = new Button();
 	private AnimationTimer gameLoop;
 	private boolean isPaused = false;
@@ -40,7 +44,8 @@ public class GameManager {
 	private double[][] seats = aircraftDB.getSeatCoordinates();
 	private int numOfPassengers = 50;
 	private ViewManager viewMan = new ViewManager();
-	int attractIndex = 0;
+	private int attractIndex = 0;
+	private double pauseDuration = 3.0;
 
 	GameManager() throws Exception {
 		startStage(gameStage);
@@ -62,20 +67,22 @@ public class GameManager {
 	}
 
 	public void gameLoop() {
-
+		
 		// Displays for a few paused seconds so user can see configuration
 		// display() method is called so we set the circles to visible. They are now in
 		// correct position.
 		passengerList.forEach(Sprite::display);
 		passengerList.forEach(Sprite::setVisible);
-		PauseTransition pause = new PauseTransition(Duration.seconds(3.0));
+		PauseTransition pause = new PauseTransition(Duration.seconds(pauseDuration));
 		pause.setOnFinished(e -> gameLoop.start());
 		pause.play();
 
 		// Once pause is finished, starts the below gameLoop
 		gameLoop = new AnimationTimer() {
+			long start = System.currentTimeMillis();
 			@Override
 			public void handle(long now) {
+				int exitCount = 0;
 		
 				// Loop through the passengerList and attract all passengers to exits
 				for (Sprite sp1 : passengerList) {
@@ -84,22 +91,31 @@ public class GameManager {
 					
 					Point2D force = exitList.get(attractIndex).attract(sp1);
 					sp1.seperate(passengerList);
+					sp1.walls();
 					sp1.applyForce(force);
 					
 				}
-
+				
+				//Timer for the simulation
+				float end = ((System.currentTimeMillis() - start) / 1000f);
+				end = (float) (end - pauseDuration);
+				end = (float) (Math.round(end * 10) / 10.0);
+				timeLabel.setText("Elapsed Time: " + Float.toString(end));
+				
 				// Display and move the passengers
 				passengerList.forEach(Sprite::display);
 				passengerList.forEach(Sprite::move);
 				for(int i = 0; i < passengerList.size(); i++) {
 					if(passengerList.get(i).getAtExit() == true) {
 						playPane.getChildren().remove(passengerList.get(i));
+						exitCount++;
+						if(exitCount == numOfPassengers) {
+							this.stop();
+						}
 					}
 				}
-
-			}
+			}			
 		};
-
 	}
 
 	public void addPassengers() {
@@ -120,12 +136,13 @@ public class GameManager {
 				passenger.parameters(location, velocity, acceleration, randomType(0, 2));
 
 			}
+			
 			// Adds passengers to list, and sets them invisible since they are currently
 			// positioned at 0,0 until the display() method is called.
 			passengerList.add(passenger);
 			passenger.setVisible(false);
 			playPane.getChildren().add(passenger);
-
+			
 		}
 
 	}
@@ -139,10 +156,16 @@ public class GameManager {
 		// adds exits
 		addExits(225, 350);
 		addExits(225, 450);
+		addExits(225, 400);
+		
+		addExits(400, 400);
 		addExits(400, 350);
 		addExits(400, 450);
-	}
+	
 
+		
+	}
+	
 	// Adds exits, exits still need to be derived from coordinates.
 	// Need more than one exit
 	public void addExits(double x, double y) {
@@ -166,13 +189,16 @@ public class GameManager {
 
 		menuBt.setText("Main Menu");
 		menuBt.setOnAction(e -> switchMenu());
+		
+		timeLabel.setText("Elapsed Time: 0.0");
+
 
 		bottomHBox.setAlignment(Pos.CENTER);
 		bottomHBox.setPadding(new Insets(0, 10, 10, 0));
 		bottomHBox.setMargin(menuBt, new Insets(0, 10, 0, 0));
 		bottomHBox.setMargin(pauseBt, new Insets(0, 10, 0, 0));
 		bottomHBox.setStyle("-fx-background-color: #FFFFE0");
-		bottomHBox.getChildren().addAll(pauseBt, menuBt);
+		bottomHBox.getChildren().addAll(pauseBt, menuBt, timeLabel);
 		borderPane.setBottom(bottomHBox);
 	}
 
