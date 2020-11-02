@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.PauseTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
@@ -71,6 +74,8 @@ public class ViewManager {
 //  private Aircraft aircraft ;
 	private int numOfPassengers = 50;
 //  private double[][] seats = aircraft.getSeatCoordinates();
+	
+	int passengerAdult;
 
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
@@ -159,16 +164,26 @@ public class ViewManager {
 // label for passenger sub-scene 	
 	private void passengerSubsceneLabel() {
 		
-		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
+		TextField adult = new TextField();
+//		int passengerAdult =  (int) ( (int) passengerSpinner.getValue());		
+		adult.setText(String.valueOf( passengerSpinner2.getValue() ));
+		adult.setPrefSize(60, 10);
+		adult.setLayoutX(30);
+		adult.setLayoutY(170);
+		
+// spinner for adult	
+		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
 		passengerSpinner2.setValueFactory(passengerSpinnerValue2);
 		passengerSpinner2.setPrefSize(60, 20);
 		passengerSpinner2.setLayoutX(100);
 		passengerSpinner2.setLayoutY(170);
+// spinner for child
 		SpinnerValueFactory<Integer> passengerSpinnerValue3 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
 		passengerSpinner3.setValueFactory(passengerSpinnerValue3);
 		passengerSpinner3.setPrefSize(60, 20);
 		passengerSpinner3.setLayoutX(240);
 		passengerSpinner3.setLayoutY(170);
+// spinner for elder
 		SpinnerValueFactory<Integer> passengerSpinnerValue4 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
 		passengerSpinner4.setValueFactory(passengerSpinnerValue4);
 		passengerSpinner4.setPrefSize(60, 20);
@@ -197,7 +212,7 @@ public class ViewManager {
 		text5.setLayoutX(180);
 		text5.setLayoutY(210);
 		passengerSubScene.getPane().getChildren().addAll(text, text2, text3, text4, text5, passengerSpinner,
-				passengerSpinner2, passengerSpinner3, passengerSpinner4);
+				passengerSpinner2,adult, passengerSpinner3, passengerSpinner4);
 	}
 
 // sub-scene for configuration
@@ -495,8 +510,7 @@ public class ViewManager {
 	public int getPassengerSpinner() {
 		return (int) passengerSpinner.getValue();
 	}
-
-
+	
 	public Stage getMainStage() {
 		return mainStage;
 	}
