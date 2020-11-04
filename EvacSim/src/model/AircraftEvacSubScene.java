@@ -15,7 +15,7 @@ public class AircraftEvacSubScene extends SubScene{
 	private boolean isHidden;
 	
 	public AircraftEvacSubScene() {
-		super(new AnchorPane(), 550, 400);
+		super(new AnchorPane(), 550, 420);
 		prefWidth(620);
 		prefHeight(400);
 		

@@ -421,7 +421,7 @@ public class ViewManager {
 			});
 		}
 		box.setLayoutX(34);
-		box.setLayoutY(50);
+		box.setLayoutY(75);
 		return box;
 	}
 	
@@ -506,7 +506,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton nextButton = new AircraftEvacSimButton("NEXT");
 		nextButton.setLayoutX(450);
-		nextButton.setLayoutY(350);
+		nextButton.setLayoutY(370);
 		nextButton.setPrefSize(80, 20);
 		nextButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -538,7 +538,7 @@ public class ViewManager {
 		AircraftEvacSimButton resetButton = new AircraftEvacSimButton("RESET");
 //		addMenuButton(resetButton);
 		resetButton.setLayoutX(240);
-		resetButton.setLayoutY(580);
+		resetButton.setLayoutY(600);
 		resetButton.setPrefSize(70, 10);
 		mainPane.getChildren().add(resetButton);
 		resetButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -553,7 +553,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton startButton = new AircraftEvacSimButton("START");
 		startButton.setLayoutX(640);
-		startButton.setLayoutY(600);
+		startButton.setLayoutY(620);
 		startButton.setPrefSize(120, 10);
 //		addMenuButton(startButton);
 		mainPane.getChildren().add(startButton);
