@@ -371,7 +371,7 @@ public class ViewManager {
 			aircraftSubSceneDrawImage();
 		} );
 		
-		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
+//		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
 		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
 		aircraftSubsceneLabel();
 		aircraftSubScene.getPane().getChildren().addAll(gridPane);
@@ -381,8 +381,24 @@ public class ViewManager {
 	private void aircraftSubSceneDrawImage() {
 		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
 			iv1.setImage(crj200specs);
+			
+			System.out.print("DUCK");
+			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
+			
 		} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
 			iv1.setImage(erj175specs);
+			
+			System.out.print("Oops");
+			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 76);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
+			
 		}
 	}
 	
