@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -28,8 +29,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -56,6 +59,11 @@ public class ViewManager {
 	private CheckBox exit2;
 	private CheckBox exit3;
 	private CheckBox exit4;
+	
+	private ComboBox<String> aircraftSel = new ComboBox<String> ();
+	ImageView iv1 = new ImageView();
+	Image crj200specs = new Image("view/resources/CRJ200_specs.jpg");
+	Image erj175specs = new Image("view/resources/ERJ175_specs.jpg");
 
 	private AircraftEvacSubScene aircraftSubScene;
 	private AircraftEvacSubScene configurationSubScene;
@@ -265,14 +273,43 @@ public class ViewManager {
 	}
 
 // sub-scene for aircraft
-	private void createAircraftSubScene() {
+	public void createAircraftSubScene() {
 		aircraftSubScene = new AircraftEvacSubScene();
+				
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
+		gridPane.setPadding(new Insets(10,10,10,10));
+		gridPane.getRowConstraints().add(new RowConstraints(30));
+		gridPane.getColumnConstraints().add(new ColumnConstraints(5));
+		
 		mainPane.getChildren().add(aircraftSubScene);
+		
+		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
+		
+			
+		gridPane.add(aircraftSel, 1, 1);
+		gridPane.add(iv1, 1, 2);
+		
+		aircraftSel.setOnAction( e-> {
+			aircraftSubSceneDrawImage();
+		} );
+		
 		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
 		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
 		aircraftSubsceneLabel();
+		aircraftSubScene.getPane().getChildren().addAll(gridPane);
+		
 	}
 
+	private void aircraftSubSceneDrawImage() {
+		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
+			iv1.setImage(crj200specs);
+		} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
+			iv1.setImage(erj175specs);
+		}
+	}
+	
 // label for aircraft sub-scene method
 	private void aircraftSubsceneLabel() {
 		Label text = new Label("CHOOSE YOUR AIRCRAFT");
