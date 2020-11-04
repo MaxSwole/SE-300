@@ -90,7 +90,6 @@ public class ViewManager {
 	private int numOfPassengers = 50;
 //  private double[][] seats = aircraft.getSeatCoordinates();
 	
-	int passengerAdult;
 
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
@@ -150,30 +149,31 @@ public class ViewManager {
 		if(choosenAircraft == choosenAircraft.airbus) {
 			System.out.print("fuck");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 
 		}
 		else if(choosenAircraft == choosenAircraft.bombardier) {
 			System.out.print("DUCK");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 		}
 		else if(choosenAircraft == choosenAircraft.embraer) {
 			System.out.print("Oops");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 69);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 		}
 		
 	}
+
 
 	
 // label for passenger sub-scene 	
