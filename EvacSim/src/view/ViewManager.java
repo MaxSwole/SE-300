@@ -65,6 +65,7 @@ public class ViewManager {
 	Image crj200specs = new Image("view/resources/CRJ200_specs.jpg");
 	Image erj175specs = new Image("view/resources/ERJ175_specs.jpg");
 
+
 	private AircraftEvacSubScene aircraftSubScene;
 	private AircraftEvacSubScene configurationSubScene;
 	private AircraftEvacSubScene passengerSubScene;
@@ -75,15 +76,22 @@ public class ViewManager {
 	List<AircraftPicked> aircraftList;
 	private Aircraft choosenAircraft;
 
-	private Spinner passengerSpinner = new Spinner();
-	private Spinner passengerSpinner2 = new Spinner();
-	private Spinner passengerSpinner3 = new Spinner();
-	private Spinner passengerSpinner4 = new Spinner();
+	private Spinner<Integer> passenger = new Spinner<Integer>();
+	private Spinner<Integer> passengerAdult = new Spinner<Integer>();
+	private Spinner<Integer> passengerChild = new Spinner<Integer>();
+	private Spinner<Integer> passengerElderly = new Spinner<Integer>();
+	private Spinner<Integer> passengerDisability = new Spinner<Integer>();
+	
+	TextField adult = new TextField();
+	TextField child = new TextField();
+	TextField elderly = new TextField();
+	TextField disability = new TextField();
+	
 //  private Aircraft aircraft ;
 	private int numOfPassengers = 50;
 //  private double[][] seats = aircraft.getSeatCoordinates();
 	
-	int passengerAdult;
+	
 
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
@@ -143,70 +151,138 @@ public class ViewManager {
 		if(choosenAircraft == choosenAircraft.airbus) {
 			System.out.print("fuck");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 
 		}
 		else if(choosenAircraft == choosenAircraft.bombardier) {
 			System.out.print("DUCK");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 		}
 		else if(choosenAircraft == choosenAircraft.embraer) {
 			System.out.print("Oops");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 69);
-			passengerSpinner.setValueFactory(passengerSpinnerValue);
-			passengerSpinner.setPrefSize(60, 30);
-			passengerSpinner.setLayoutX(95);
-			passengerSpinner.setLayoutY(85);
+			passenger.setValueFactory(passengerSpinnerValue);
+			passenger.setPrefSize(60, 30);
+			passenger.setLayoutX(95);
+			passenger.setLayoutY(85);
 		}
 		
 	}
 
 	
 // label for passenger sub-scene 	
+	
+	
 	private void passengerSubsceneLabel() {
 		
 		TextField adult = new TextField();
-//		int passengerAdult =  (int) ( (int) passengerSpinner.getValue());		
-		adult.setText(String.valueOf( passengerSpinner2.getValue() ));
 		adult.setPrefSize(60, 10);
 		adult.setLayoutX(30);
 		adult.setLayoutY(170);
 		
+		TextField child = new TextField();
+		child.setPrefSize(60, 10);
+		child.setLayoutX(450);
+		child.setLayoutY(170);
+		
+		TextField elderly = new TextField();
+		elderly.setPrefSize(60, 10);
+		elderly.setLayoutX(30);
+		elderly.setLayoutY(210);
+		
+		TextField disability = new TextField();
+		disability.setPrefSize(60, 10);
+		disability.setLayoutX(450);
+		disability.setLayoutY(210);
+/*		
+		TextField totalPassenger = new TextField();
+		totalPassenger.setPrefSize(60, 10);
+		totalPassenger.setLayoutX(410);
+		totalPassenger.setLayoutY(280);
+		
+		
+		totalPassenger.setText(String.valueOf( adult.getText() ));
+*/
+		
 // spinner for adult	
 		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
-		passengerSpinner2.setValueFactory(passengerSpinnerValue2);
-		passengerSpinner2.setPrefSize(60, 20);
-		passengerSpinner2.setLayoutX(100);
-		passengerSpinner2.setLayoutY(170);
+		passengerAdult.setValueFactory(passengerSpinnerValue2);
+		passengerAdult.setPrefSize(60, 20);
+		passengerAdult.setLayoutX(100);
+		passengerAdult.setLayoutY(170);
+		
+		passengerAdult.valueProperty().addListener((observed,oldValue,newValue) ->{
+			
+			int total =  (( (int)  newValue) * passenger.getValue()) / 100;
+			
+			adult.setText(   String.valueOf(total)    );
+		});
+		
 // spinner for child
-		SpinnerValueFactory<Integer> passengerSpinnerValue3 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
-		passengerSpinner3.setValueFactory(passengerSpinnerValue3);
-		passengerSpinner3.setPrefSize(60, 20);
-		passengerSpinner3.setLayoutX(240);
-		passengerSpinner3.setLayoutY(170);
+		SpinnerValueFactory<Integer> passengerSpinnerValue3 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 17);
+		passengerChild.setValueFactory(passengerSpinnerValue3);
+		passengerChild.setPrefSize(60, 20);
+		passengerChild.setLayoutX(380);
+		passengerChild.setLayoutY(170);
+		
+		passengerChild.valueProperty().addListener((observed,oldValue,newValue) ->{
+			
+			int total =  (( (int)  newValue) * passenger.getValue()) / 100;
+			
+			child.setText(   String.valueOf(total)    );
+			
+		});		
+		
 // spinner for elder
-		SpinnerValueFactory<Integer> passengerSpinnerValue4 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2);
-		passengerSpinner4.setValueFactory(passengerSpinnerValue4);
-		passengerSpinner4.setPrefSize(60, 20);
-		passengerSpinner4.setLayoutX(100);
-		passengerSpinner4.setLayoutY(210);
+		SpinnerValueFactory<Integer> passengerSpinnerValue4 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 18);
+		passengerElderly.setValueFactory(passengerSpinnerValue4);
+		passengerElderly.setPrefSize(60, 20);
+		passengerElderly.setLayoutX(100);
+		passengerElderly.setLayoutY(210);
 
+		passengerElderly.valueProperty().addListener((observed,oldValue,newValue) ->{
+			
+			int total =  (( (int)  newValue) * passenger.getValue()) / 100;
+			
+			elderly.setText(   String.valueOf(total)    );
+			
+		});
+		
+// spinner for disable 
+		SpinnerValueFactory<Integer> passengerSpinnerValue5 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 15);
+		passengerDisability.setValueFactory(passengerSpinnerValue5);
+		passengerDisability.setPrefSize(60, 20);
+		passengerDisability.setLayoutX(380);
+		passengerDisability.setLayoutY(210);
+
+		passengerDisability.valueProperty().addListener((observed,oldValue,newValue) ->{
+					
+			int total =  (( (int)  newValue) * passenger.getValue()) / 100;
+					
+			disability.setText(   String.valueOf(total)    );
+					
+		});
+						
+		
 		Label text = new Label("PASSENGER COUNT: ");
-		Label text1 = new Label("PASSENGERS "); // have to finish this one
+		Label text1 = new Label("DISABILITY % "); // have to finish this one
 		Label text2 = new Label("PASSENGER GENDER: ");
-		Label text3 = new Label("ADULT");
-		Label text4 = new Label("CHILD");
-		Label text5 = new Label("ELDERY");
+		Label text3 = new Label("% ADULT");
+		Label text4 = new Label("CHILD %");
+		Label text5 = new Label("% ELDERY");
 		text.setFont(Font.font("Calibri Light", 18));
 		text.setLayoutX(10);
 		text.setLayoutY(50);
+		text1.setFont(Font.font("Calibri Light", 15));
+		text1.setLayoutX(290);
+		text1.setLayoutY(210);
 		text2.setFont(Font.font("Calibri Light", 18));
 		text2.setLayoutX(10);
 		text2.setLayoutY(130);
@@ -214,13 +290,13 @@ public class ViewManager {
 		text3.setLayoutX(180);
 		text3.setLayoutY(170);
 		text4.setFont(Font.font("Calibri Light", 15));
-		text4.setLayoutX(320);
+		text4.setLayoutX(310);
 		text4.setLayoutY(170);
 		text5.setFont(Font.font("Calibri Light", 15));
 		text5.setLayoutX(180);
 		text5.setLayoutY(210);
-		passengerSubScene.getPane().getChildren().addAll(text, text2, text3, text4, text5, passengerSpinner,
-				passengerSpinner2,adult, passengerSpinner3, passengerSpinner4);
+		passengerSubScene.getPane().getChildren().addAll(text,text1, text2, text3, text4, text5, passenger,
+				passengerAdult, adult,child,elderly,disability, passengerChild, passengerElderly, passengerDisability);
 	}
 
 // sub-scene for configuration
@@ -234,9 +310,13 @@ public class ViewManager {
 
 // method for checking number of exit 	
 	private GridPane createExitToChoose() {
+		
 		GridPane grid = new GridPane();
 		exit1 = new CheckBox(" 1");
 		exit1.setSelected(false);
+		if(exit1.isSelected() ) {
+			System.out.print("ok");
+		}
 		exit2 = new CheckBox(" 2");
 		exit3 = new CheckBox(" 3");
 		exit4 = new CheckBox(" 4");
@@ -272,44 +352,44 @@ public class ViewManager {
 		configurationSubScene.getPane().getChildren().addAll(text, text2);
 	}
 
-// sub-scene for aircraft
-	public void createAircraftSubScene() {
-		aircraftSubScene = new AircraftEvacSubScene();
-				
-		GridPane gridPane = new GridPane();
-		gridPane.setVgap(10);
-		gridPane.setHgap(10);
-		gridPane.setPadding(new Insets(10,10,10,10));
-		gridPane.getRowConstraints().add(new RowConstraints(30));
-		gridPane.getColumnConstraints().add(new ColumnConstraints(5));
-		
-		mainPane.getChildren().add(aircraftSubScene);
-		
-		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
-		
+	// sub-scene for aircraft
+		public void createAircraftSubScene() {
+			aircraftSubScene = new AircraftEvacSubScene();
+					
+			GridPane gridPane = new GridPane();
+			gridPane.setVgap(10);
+			gridPane.setHgap(10);
+			gridPane.setPadding(new Insets(10,10,10,10));
+			gridPane.getRowConstraints().add(new RowConstraints(30));
+			gridPane.getColumnConstraints().add(new ColumnConstraints(5));
 			
-		gridPane.add(aircraftSel, 1, 1);
-		gridPane.add(iv1, 1, 2);
-		
-		aircraftSel.setOnAction( e-> {
-			aircraftSubSceneDrawImage();
-		} );
-		
-		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
-		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
-		aircraftSubsceneLabel();
-		aircraftSubScene.getPane().getChildren().addAll(gridPane);
-		
-	}
-
-	private void aircraftSubSceneDrawImage() {
-		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
-			iv1.setImage(crj200specs);
-		} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
-			iv1.setImage(erj175specs);
+			mainPane.getChildren().add(aircraftSubScene);
+			
+			aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
+			
+				
+			gridPane.add(aircraftSel, 1, 1);
+			gridPane.add(iv1, 1, 2);
+			
+			aircraftSel.setOnAction( e-> {
+				aircraftSubSceneDrawImage();
+			} );
+			
+			aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
+			aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
+			aircraftSubsceneLabel();
+			aircraftSubScene.getPane().getChildren().addAll(gridPane);
+			
 		}
-	}
-	
+
+		private void aircraftSubSceneDrawImage() {
+			if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
+				iv1.setImage(crj200specs);
+			} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
+				iv1.setImage(erj175specs);
+			}
+		}
+
 // label for aircraft sub-scene method
 	private void aircraftSubsceneLabel() {
 		Label text = new Label("CHOOSE YOUR AIRCRAFT");
@@ -544,8 +624,8 @@ public class ViewManager {
 	}
 	
 
-	public int getPassengerSpinner() {
-		return (int) passengerSpinner.getValue();
+	public int getPassenger() {
+		return (int) passenger.getValue();
 	}
 	
 	public Stage getMainStage() {
