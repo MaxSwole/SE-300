@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
@@ -311,12 +313,84 @@ public class ViewManager {
 // method for checking number of exit 	
 	private GridPane createExitToChoose() {
 		GridPane grid = new GridPane();
+		
 		exit1 = new CheckBox(" 1");
-		exit1.setSelected(false);
-		exit2 = new CheckBox(" 2");
-		exit3 = new CheckBox(" 3");
-		exit4 = new CheckBox(" 4");
+		exit1.setIndeterminate(false);
+		exit1.selectedProperty().addListener(new ChangeListener<Boolean>() {
 
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
+				
+				exit2.setDisable(true);
+				exit3.setDisable(true);
+				exit4.setDisable(true);
+				
+				if(newValue == false) {
+					exit2.setDisable(false);
+					exit3.setDisable(false);
+					exit4.setDisable(false);
+				}
+			}
+			
+		});
+		
+		exit2 = new CheckBox(" 2");
+		exit2.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
+				
+				exit1.setDisable(true);
+				exit3.setDisable(true);
+				exit4.setDisable(true);
+				
+				if(newValue == false) {
+					exit1.setDisable(false);
+					exit3.setDisable(false);
+					exit4.setDisable(false);
+				}
+			}
+			
+		});
+		
+		exit3 = new CheckBox(" 3");
+		exit3.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
+				
+				exit1.setDisable(true);
+				exit2.setDisable(true);
+				exit4.setDisable(true);
+				
+				if(newValue == false) {
+					exit1.setDisable(false);
+					exit2.setDisable(false);
+					exit4.setDisable(false);
+				}
+			}
+			
+		});
+		
+		exit4 = new CheckBox(" 4");
+		exit4.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
+				
+				exit1.setDisable(true);
+				exit3.setDisable(true);
+				exit2.setDisable(true);
+				
+				if(newValue == false) {
+					exit1.setDisable(false);
+					exit3.setDisable(false);
+					exit2.setDisable(false);
+				}
+			}
+			
+		});
+		
 		grid.add(exit1, 0, 0);
 		grid.add(exit2, 1, 0);
 		grid.add(exit3, 0, 1);
@@ -361,15 +435,49 @@ public class ViewManager {
 		
 		mainPane.getChildren().add(aircraftSubScene);
 		
-		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
+		ComboBox<String> aircraftSel = new ComboBox<String> (FXCollections 
+                .observableArrayList("Bombardier CRJ-200", "Embraer ERJ-175"));
+		
+//		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
 		
 			
 		gridPane.add(aircraftSel, 1, 1);
 		gridPane.add(iv1, 1, 2);
 		
+/*		
 		aircraftSel.setOnAction( e-> {
 			aircraftSubSceneDrawImage();
 		} );
+*/
+		
+		aircraftSel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
+					iv1.setImage(crj200specs);
+					
+					System.out.print("DUCK");
+					SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
+					passenger.setValueFactory(passengerSpinnerValue);
+					passenger.setPrefSize(60, 30);
+					passenger.setLayoutX(95);
+					passenger.setLayoutY(85);
+					
+				} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
+					iv1.setImage(erj175specs);
+					
+					System.out.print("Oops");
+					SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 76);
+					passenger.setValueFactory(passengerSpinnerValue);
+					passenger.setPrefSize(60, 30);
+					passenger.setLayoutX(95);
+					passenger.setLayoutY(85);		
+				}
+			} 
+			
+		});
+
 		
 //		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
 		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
@@ -377,7 +485,7 @@ public class ViewManager {
 		aircraftSubScene.getPane().getChildren().addAll(gridPane);
 		
 	}
-
+/*
 	private void aircraftSubSceneDrawImage() {
 		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
 			iv1.setImage(crj200specs);
@@ -397,10 +505,12 @@ public class ViewManager {
 			passenger.setValueFactory(passengerSpinnerValue);
 			passenger.setPrefSize(60, 30);
 			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);
-			
+			passenger.setLayoutY(85);		
 		}
+	
 	}
+*/
+	
 	
 // label for aircraft sub-scene method
 	private void aircraftSubsceneLabel() {
@@ -614,7 +724,7 @@ public class ViewManager {
 // create logo	
 	private void createLogo() {
 		ImageView logo = new ImageView("/view/resources/aircraft_logo.png");
-		logo.setLayoutX(340);
+		logo.setLayoutX(400);
 		logo.setLayoutY(0);
 
 		logo.setOnMouseEntered(new EventHandler<MouseEvent>() {
