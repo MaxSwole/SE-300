@@ -44,6 +44,7 @@ import model.AircraftEvacSimButton;
 import model.AircraftEvacSubScene;
 import model.AircraftPicked;
 
+
 public class ViewManager {
 
 	private static final int width = 800;
