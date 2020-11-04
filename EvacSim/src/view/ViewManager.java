@@ -65,7 +65,6 @@ public class ViewManager {
 	Image crj200specs = new Image("view/resources/CRJ200_specs.jpg");
 	Image erj175specs = new Image("view/resources/ERJ175_specs.jpg");
 
-
 	private AircraftEvacSubScene aircraftSubScene;
 	private AircraftEvacSubScene configurationSubScene;
 	private AircraftEvacSubScene passengerSubScene;
@@ -86,12 +85,11 @@ public class ViewManager {
 	TextField child = new TextField();
 	TextField elderly = new TextField();
 	TextField disability = new TextField();
-	
 //  private Aircraft aircraft ;
 	private int numOfPassengers = 50;
 //  private double[][] seats = aircraft.getSeatCoordinates();
 	
-	
+	int passengerAdult;
 
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
@@ -151,35 +149,33 @@ public class ViewManager {
 		if(choosenAircraft == choosenAircraft.airbus) {
 			System.out.print("fuck");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150);
-			passenger.setValueFactory(passengerSpinnerValue);
-			passenger.setPrefSize(60, 30);
-			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
 
 		}
 		else if(choosenAircraft == choosenAircraft.bombardier) {
 			System.out.print("DUCK");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
-			passenger.setValueFactory(passengerSpinnerValue);
-			passenger.setPrefSize(60, 30);
-			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
 		}
 		else if(choosenAircraft == choosenAircraft.embraer) {
 			System.out.print("Oops");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 69);
-			passenger.setValueFactory(passengerSpinnerValue);
-			passenger.setPrefSize(60, 30);
-			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);
+			passengerSpinner.setValueFactory(passengerSpinnerValue);
+			passengerSpinner.setPrefSize(60, 30);
+			passengerSpinner.setLayoutX(95);
+			passengerSpinner.setLayoutY(85);
 		}
 		
 	}
 
 	
 // label for passenger sub-scene 	
-	
-	
 	private void passengerSubsceneLabel() {
 		
 		TextField adult = new TextField();
@@ -238,7 +234,9 @@ public class ViewManager {
 			
 			child.setText(   String.valueOf(total)    );
 			
-		});		
+		});
+		
+		
 		
 // spinner for elder
 		SpinnerValueFactory<Integer> passengerSpinnerValue4 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 18);
@@ -299,6 +297,7 @@ public class ViewManager {
 				passengerAdult, adult,child,elderly,disability, passengerChild, passengerElderly, passengerDisability);
 	}
 
+
 // sub-scene for configuration
 	private void createConfigurationSubScene() {
 		configurationSubScene = new AircraftEvacSubScene();
@@ -310,13 +309,9 @@ public class ViewManager {
 
 // method for checking number of exit 	
 	private GridPane createExitToChoose() {
-		
 		GridPane grid = new GridPane();
 		exit1 = new CheckBox(" 1");
 		exit1.setSelected(false);
-		if(exit1.isSelected() ) {
-			System.out.print("ok");
-		}
 		exit2 = new CheckBox(" 2");
 		exit3 = new CheckBox(" 3");
 		exit4 = new CheckBox(" 4");
@@ -352,44 +347,44 @@ public class ViewManager {
 		configurationSubScene.getPane().getChildren().addAll(text, text2);
 	}
 
-	// sub-scene for aircraft
-		public void createAircraftSubScene() {
-			aircraftSubScene = new AircraftEvacSubScene();
-					
-			GridPane gridPane = new GridPane();
-			gridPane.setVgap(10);
-			gridPane.setHgap(10);
-			gridPane.setPadding(new Insets(10,10,10,10));
-			gridPane.getRowConstraints().add(new RowConstraints(30));
-			gridPane.getColumnConstraints().add(new ColumnConstraints(5));
-			
-			mainPane.getChildren().add(aircraftSubScene);
-			
-			aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
-			
+// sub-scene for aircraft
+	public void createAircraftSubScene() {
+		aircraftSubScene = new AircraftEvacSubScene();
 				
-			gridPane.add(aircraftSel, 1, 1);
-			gridPane.add(iv1, 1, 2);
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
+		gridPane.setPadding(new Insets(10,10,10,10));
+		gridPane.getRowConstraints().add(new RowConstraints(30));
+		gridPane.getColumnConstraints().add(new ColumnConstraints(5));
+		
+		mainPane.getChildren().add(aircraftSubScene);
+		
+		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
+		
 			
-			aircraftSel.setOnAction( e-> {
-				aircraftSubSceneDrawImage();
-			} );
-			
-			aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
-			aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
-			aircraftSubsceneLabel();
-			aircraftSubScene.getPane().getChildren().addAll(gridPane);
-			
-		}
+		gridPane.add(aircraftSel, 1, 1);
+		gridPane.add(iv1, 1, 2);
+		
+		aircraftSel.setOnAction( e-> {
+			aircraftSubSceneDrawImage();
+		} );
+		
+		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
+		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
+		aircraftSubsceneLabel();
+		aircraftSubScene.getPane().getChildren().addAll(gridPane);
+		
+	}
 
-		private void aircraftSubSceneDrawImage() {
-			if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
-				iv1.setImage(crj200specs);
-			} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
-				iv1.setImage(erj175specs);
-			}
+	private void aircraftSubSceneDrawImage() {
+		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
+			iv1.setImage(crj200specs);
+		} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
+			iv1.setImage(erj175specs);
 		}
-
+	}
+	
 // label for aircraft sub-scene method
 	private void aircraftSubsceneLabel() {
 		Label text = new Label("CHOOSE YOUR AIRCRAFT");
