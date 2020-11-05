@@ -42,7 +42,11 @@ public class GameManager {
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
 	private double[][] seats = aircraftDB.getSeatCoordinates();
-	private int numOfPassengers = 50;
+//	private int numOfPassengers = 50;
+	
+	private int numOfPassengers;
+	private int numOfExits;
+	
 	private ViewManager viewMan = new ViewManager();
 	private int attractIndex = 0;
 	private double pauseDuration = 3.0;
@@ -161,10 +165,10 @@ public class GameManager {
 		addExits(400, 400);
 		addExits(400, 350);
 		addExits(400, 450);
-	
-
+		
 		
 	}
+	
 	
 	// Adds exits, exits still need to be derived from coordinates.
 	// Need more than one exit
@@ -232,9 +236,24 @@ public class GameManager {
 		return num;
 	}
 
+	
+//*******************getters and Setters**********************************
+	
+	public int getNumOfPassengers() {
+		return numOfPassengers;
+	}
+
 	// Sets the number of passengers
-	public void setPassengers(int num) {
+	public void setNumOfPassengers(int num) {
 		numOfPassengers = num;
+	}
+	
+	public int getNumOfExits() {
+		return numOfExits;
+	}
+	
+	public void setNumOfExits(int num) {
+		numOfExits = num;
 	}
 
 }

@@ -91,6 +91,7 @@ public class ViewManager {
 //  private Aircraft aircraft ;
 	private int numOfPassengers = 50;
 //  private double[][] seats = aircraft.getSeatCoordinates();
+	GameManager gameMan;
 	
 
 	public ViewManager() {
@@ -704,7 +705,8 @@ public class ViewManager {
 		mainStage.close();
 		
 		//Sets number of passengers in gameManager, and setup passengers
-		//gameMan.setPassengers((int) passengerSpinner.getValue());
+		gameMan.setNumOfPassengers((int) passenger.getValue());
+		
 		gameMan.initializePassenger();
 		
 		//Starts the gameLoop, this is the animation
