@@ -156,7 +156,7 @@ public class GameManager {
 		for (int i = 0; i < numOfPassengers; i++) {
 			addPassengers();
 		}
-
+/*
 		// adds exits
 		addExits(225, 350);
 		addExits(225, 450);
@@ -165,7 +165,7 @@ public class GameManager {
 		addExits(400, 400);
 		addExits(400, 350);
 		addExits(400, 450);
-		
+*/		
 		
 	}
 	
@@ -214,6 +214,15 @@ public class GameManager {
 
 	}
 
+	
+	public void closeStage() {
+		// System.exit(0);
+		gameStage.close();
+		
+
+	}
+
+	
 	public void pauseSimulation() {
 		if (isPaused == false) {
 			gameLoop.stop();
