@@ -215,14 +215,6 @@ public class GameManager {
 	}
 
 	
-	public void closeStage() {
-		// System.exit(0);
-		gameStage.close();
-		
-
-	}
-
-	
 	public void pauseSimulation() {
 		if (isPaused == false) {
 			gameLoop.stop();

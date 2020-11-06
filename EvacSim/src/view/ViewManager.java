@@ -62,6 +62,8 @@ public class ViewManager {
 	private CheckBox exit2;
 	private CheckBox exit3;
 	private CheckBox exit4;
+	private CheckBox exit5;
+	private CheckBox exit6;
 	
 	private ComboBox<String> aircraftSel = new ComboBox<String> ();
 	ImageView iv1 = new ImageView();
@@ -315,88 +317,26 @@ public class ViewManager {
 	private GridPane createExitToChoose() {
 		GridPane grid = new GridPane();
 		
-		exit1 = new CheckBox(" 1");
-		exit1.setIndeterminate(false);
-		exit1.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
-				
-				exit2.setDisable(true);
-				exit3.setDisable(true);
-				exit4.setDisable(true);
-				
-				if(newValue == false) {
-					exit2.setDisable(false);
-					exit3.setDisable(false);
-					exit4.setDisable(false);
-				}
-			}
-			
-		});
+		exit1 = new CheckBox(" EXIT 1");
 		
-		exit2 = new CheckBox(" 2");
-		exit2.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
-				
-				exit1.setDisable(true);
-				exit3.setDisable(true);
-				exit4.setDisable(true);
-				
-				if(newValue == false) {
-					exit1.setDisable(false);
-					exit3.setDisable(false);
-					exit4.setDisable(false);
-				}
-			}
-			
-		});
+		exit2 = new CheckBox(" EXIT 2");
 		
-		exit3 = new CheckBox(" 3");
-		exit3.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
-				
-				exit1.setDisable(true);
-				exit2.setDisable(true);
-				exit4.setDisable(true);
-				
-				if(newValue == false) {
-					exit1.setDisable(false);
-					exit2.setDisable(false);
-					exit4.setDisable(false);
-				}
-			}
-			
-		});
+		exit3 = new CheckBox(" EXIT 3");		
 		
-		exit4 = new CheckBox(" 4");
-		exit4.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
-				
-				exit1.setDisable(true);
-				exit3.setDisable(true);
-				exit2.setDisable(true);
-				
-				if(newValue == false) {
-					exit1.setDisable(false);
-					exit3.setDisable(false);
-					exit2.setDisable(false);
-				}
-			}
-			
-		});
+		exit4 = new CheckBox(" EXIT 4");
+		
+		exit5 = new CheckBox(" EXIT 5");
+		
+		exit6 = new CheckBox(" EXIT 6");
+		
 		
 		grid.add(exit1, 0, 0);
 		grid.add(exit2, 1, 0);
 		grid.add(exit3, 0, 1);
 		grid.add(exit4, 1, 1);
-
+		grid.add(exit5, 0, 2);
+		grid.add(exit6, 1, 2);
+		
 		grid.setVgap(50);
 		grid.setHgap(100);
 		grid.setPadding(new Insets(10, 10, 10, 10));
@@ -458,22 +398,26 @@ public class ViewManager {
 				if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
 					iv1.setImage(crj200specs);
 					
-					System.out.print("DUCK");
 					SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
 					passenger.setValueFactory(passengerSpinnerValue);
 					passenger.setPrefSize(60, 30);
 					passenger.setLayoutX(95);
 					passenger.setLayoutY(85);
 					
+					exit5.setDisable(true);
+					exit6.setDisable(true);
+					
 				} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
 					iv1.setImage(erj175specs);
 					
-					System.out.print("Oops");
 					SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 76);
 					passenger.setValueFactory(passengerSpinnerValue);
 					passenger.setPrefSize(60, 30);
 					passenger.setLayoutX(95);
-					passenger.setLayoutY(85);		
+					passenger.setLayoutY(85);	
+					
+					exit5.setDisable(true);
+					exit6.setDisable(true);
 				}
 			} 
 			
@@ -689,6 +633,7 @@ public class ViewManager {
 			public void handle(ActionEvent event) {
 				try {
 					startGameSetup();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -708,12 +653,33 @@ public class ViewManager {
 		gameMan.setNumOfPassengers((int) passenger.getValue());
 		
 		gameMan.initializePassenger();
-		
+
+		// set exit coordinate
+		if(exit1.isSelected()) {
+			gameMan.addExits(225, 350);
+		}
+		if(exit2.isSelected()) {
+			gameMan.addExits(225, 450);
+		}
+		if(exit3.isSelected()) {
+			gameMan.addExits(225, 400);
+		}
+		if(exit4.isSelected()) {
+			gameMan.addExits(400, 400);
+		}
+		if(exit5.isSelected()) {
+			gameMan.addExits(400, 350);
+		}
+		if(exit6.isSelected()) {
+			gameMan.addExits(400, 450);
+		}
+			
 		//Starts the gameLoop, this is the animation
 		gameMan.gameLoop();
 
 	}
-
+	
+	
 // create background
 	private void createBackground() {
 
