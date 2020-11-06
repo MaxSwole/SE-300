@@ -45,7 +45,7 @@ public class GameManager {
 //	private int numOfPassengers = 50;
 	
 	private int numOfPassengers;
-	private int numOfExits;
+
 	
 	private ViewManager viewMan = new ViewManager();
 	private int attractIndex = 0;
@@ -249,12 +249,5 @@ public class GameManager {
 		numOfPassengers = num;
 	}
 	
-	public int getNumOfExits() {
-		return numOfExits;
-	}
-	
-	public void setNumOfExits(int num) {
-		numOfExits = num;
-	}
 
 }
