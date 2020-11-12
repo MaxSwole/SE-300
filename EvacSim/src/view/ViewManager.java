@@ -656,16 +656,16 @@ public class ViewManager {
 
 		// set exit coordinate
 		if(exit1.isSelected()) {
-			gameMan.addExits(225, 350);
+			gameMan.addExits(95.5, 55);
 		}
 		if(exit2.isSelected()) {
-			gameMan.addExits(225, 450);
+			gameMan.addExits(185, 55);
 		}
 		if(exit3.isSelected()) {
-			gameMan.addExits(225, 400);
+			gameMan.addExits(88.5, 275);
 		}
 		if(exit4.isSelected()) {
-			gameMan.addExits(400, 400);
+			gameMan.addExits(192, 275);
 		}
 		if(exit5.isSelected()) {
 			gameMan.addExits(400, 350);
