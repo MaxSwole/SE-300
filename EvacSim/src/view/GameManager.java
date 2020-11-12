@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,7 +26,7 @@ import model.AircraftDB;
 import model.Sprite;
 
 public class GameManager {
-	final int WIDTH = 700;
+	final int WIDTH = 400;
 	final int LENGTH = 900;
 
 	private BorderPane borderPane = new BorderPane();
@@ -46,6 +48,13 @@ public class GameManager {
 	
 	private int numOfPassengers;
 
+	private ImageView iv1 = new ImageView();
+	private Image crj200 = new Image("view/resources/CRJ200.jpg");
+	private Image erj175 = new Image("view/resources/ERJ175.jpg");
+	private Polygon exit1 = new Polygon();
+	private Polygon exit2 = new Polygon();
+	private Polygon exit3 = new Polygon();
+	private Polygon exit4 = new Polygon();
 	
 	private ViewManager viewMan = new ViewManager();
 	private int attractIndex = 0;
@@ -62,6 +71,15 @@ public class GameManager {
 		gameStage.getIcons().add(new Image("view/resources/Icon.png"));
 		gameStage.show();
 
+		// draw aircraft layout
+		iv1.setFitWidth(280);
+		iv1.setPreserveRatio(true);
+		iv1.setSmooth(true);
+		iv1.setCache(true);
+		iv1.setImage(crj200);
+		iv1.toBack();
+		playPane.getChildren().add(iv1);
+		
 		// layerPane contains the playPane which is in the center borderPane
 		layerPane.getChildren().add(playPane);
 		layerPane.setStyle("-fx-background-color: #FFFFE0");

@@ -27,7 +27,7 @@ public class Sprite extends Circle {
 	private boolean atExit = false;
 
 	// Radius of all Circles
-	private double radius = 3.0;
+	private double radius = 5.0;
 
 	// Empty Constructor
 	public Sprite() {
