@@ -24,6 +24,7 @@ public class AircraftDB {
 		//		{seatAx,initialY+(11*yGap)}, {seatBx,initialY+(11*yGap)}, {seatCx,initialY+(11*yGap)}, {seatDx,initialY+(11*yGap)}, //row 12
 		//		{seatAx,initialY+(12*yGap)}, {seatBx,initialY+(12*yGap)} }; //row 13
 		
+		// these coordinates work for the CRJ200
 		double[][] seatCoordinates = { {-101.5,-115}, {-84,-115}, {-36,-115}, {-18.5,-115}, //row 1
 				{-101.5,-87.8}, {-84,-87.8}, {-36,-87.8}, {-18.5,-87.8}, //row 2
 				{-101.5,-60.6}, {-84,-60.6}, {-36,-60.6}, {-18.5,-60.6}, //row 3
