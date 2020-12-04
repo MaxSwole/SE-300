@@ -65,11 +65,18 @@ public class ViewManager {
 	private CheckBox exit5;
 	private CheckBox exit6;
 	
-	private ComboBox<String> aircraftSel = new ComboBox<String> ();
+//	private ComboBox<String> aircraftSel = new ComboBox<String> ();
+	ComboBox<String> aircraftSel = new ComboBox<String> (FXCollections 
+            .observableArrayList("Bombardier CRJ-200", "Embraer ERJ-175"));
+	boolean isMyComboBoxEmpty = aircraftSel.getSelectionModel().isEmpty();
+	
 	ImageView iv1 = new ImageView();
+	ImageView iv2 = new ImageView();
 	Image crj200specs = new Image("view/resources/CRJ200_specs.jpg");
 	Image erj175specs = new Image("view/resources/ERJ175_specs.jpg");
-
+	private Image crj200 = new Image("view/resources/CRJ200.jpg");
+	private Image erj175 = new Image("view/resources/ERJ175.jpg");
+	
 	private AircraftEvacSubScene aircraftSubScene;
 	private AircraftEvacSubScene configurationSubScene;
 	private AircraftEvacSubScene passengerSubScene;
@@ -85,6 +92,8 @@ public class ViewManager {
 	private Spinner<Integer> passengerChild = new Spinner<Integer>();
 	private Spinner<Integer> passengerElderly = new Spinner<Integer>();
 	private Spinner<Integer> passengerDisability = new Spinner<Integer>();
+	
+	AircraftEvacSimButton startButton; 
 	
 	TextField adult = new TextField();
 	TextField child = new TextField();
@@ -107,6 +116,8 @@ public class ViewManager {
 		createButtons();
 		createBackground();
 		createLogo();
+		
+		
 	}
 	
 	public void  startViewManager() {
@@ -376,23 +387,16 @@ public class ViewManager {
 		
 		mainPane.getChildren().add(aircraftSubScene);
 		
-		ComboBox<String> aircraftSel = new ComboBox<String> (FXCollections 
+/*		ComboBox<String> aircraftSel = new ComboBox<String> (FXCollections 
                 .observableArrayList("Bombardier CRJ-200", "Embraer ERJ-175"));
-		
-//		aircraftSel.getItems().addAll("Bombardier CRJ-200", "Embraer ERJ-175");
-		
+*/			
 			
 		gridPane.add(aircraftSel, 1, 1);
 		gridPane.add(iv1, 1, 2);
-		
-/*		
-		aircraftSel.setOnAction( e-> {
-			aircraftSubSceneDrawImage();
-		} );
-*/
-		
-		aircraftSel.setOnAction(new EventHandler<ActionEvent>() {
 
+		
+		aircraftSel.setOnAction(new EventHandler<ActionEvent>() {	
+			
 			@Override
 			public void handle(ActionEvent e) {
 				if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
@@ -407,6 +411,8 @@ public class ViewManager {
 					exit5.setDisable(true);
 					exit6.setDisable(true);
 					
+				
+										
 				} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
 					iv1.setImage(erj175specs);
 					
@@ -419,10 +425,15 @@ public class ViewManager {
 					exit5.setDisable(true);
 					exit6.setDisable(true);
 				}
-			} 
+			
+			
+			}
+			
+			
 			
 		});
 
+		
 		
 //		aircraftSubScene.getPane().getChildren().add(createAircraftToChoose());
 		aircraftSubScene.getPane().getChildren().add(createAircraftNextButton());
@@ -430,31 +441,6 @@ public class ViewManager {
 		aircraftSubScene.getPane().getChildren().addAll(gridPane);
 		
 	}
-/*
-	private void aircraftSubSceneDrawImage() {
-		if (aircraftSel.getSelectionModel().getSelectedIndex() == 0) {
-			iv1.setImage(crj200specs);
-			
-			System.out.print("DUCK");
-			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
-			passenger.setValueFactory(passengerSpinnerValue);
-			passenger.setPrefSize(60, 30);
-			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);
-			
-		} else if (aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
-			iv1.setImage(erj175specs);
-			
-			System.out.print("Oops");
-			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 76);
-			passenger.setValueFactory(passengerSpinnerValue);
-			passenger.setPrefSize(60, 30);
-			passenger.setLayoutX(95);
-			passenger.setLayoutY(85);		
-		}
-	
-	}
-*/
 	
 	
 // label for aircraft sub-scene method
@@ -634,6 +620,7 @@ public class ViewManager {
 				try {
 					startGameSetup();
 					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -648,12 +635,13 @@ public class ViewManager {
 		//Creates gameManager and opens gameStage
 		GameManager gameMan = new GameManager();
 		mainStage.close();
-		
+/*		
 		//Sets number of passengers in gameManager, and setup passengers
 		gameMan.setNumOfPassengers((int) passenger.getValue());
 		
 		gameMan.initializePassenger();
-
+		
+		
 		// set exit coordinate
 		if(exit1.isSelected()) {
 			gameMan.addExits(95.5, 55);
@@ -665,17 +653,94 @@ public class ViewManager {
 			gameMan.addExits(88.5, 275);
 		}
 		if(exit4.isSelected()) {
-			gameMan.addExits(192, 275);
+			gameMan.addExits(192, 275);	
 		}
 		if(exit5.isSelected()) {
 			gameMan.addExits(400, 350);
 		}
 		if(exit6.isSelected()) {
 			gameMan.addExits(400, 450);
-		}
 			
+		}
+*/		
+		if(aircraftSel.getValue() == "Bombardier CRJ-200" ) {
+			System.out.println("frog");
+			iv2.setFitWidth(280);
+			iv2.setPreserveRatio(true);
+			iv2.setSmooth(true);
+			iv2.setCache(true);
+			iv2.setImage(crj200);
+			iv2.toBack();
+			
+			gameMan.playPane.getChildren().add(iv2);
+			
+			//Sets number of passengers in gameManager, and setup passengers
+			gameMan.setNumOfPassengers((int) passenger.getValue());
+			
+			gameMan.initializePassenger();
+			
+			// set exit coordinate
+			if(exit1.isSelected()) {
+				gameMan.addExits(95.5, 55);
+			}
+			if(exit2.isSelected()) {
+				gameMan.addExits(185, 55);
+			}
+			if(exit3.isSelected()) {
+				gameMan.addExits(88.5, 275);
+			}
+			if(exit4.isSelected()) {
+				gameMan.addExits(192, 275);	
+			}
+			if(exit5.isSelected()) {
+				gameMan.addExits(400, 350);
+			}
+			if(exit6.isSelected()) {
+				gameMan.addExits(400, 450);
+				
+			}
+		}else if(aircraftSel.getValue() == "Embraer ERJ-175") {
+			iv2.setFitWidth(280);
+			iv2.setPreserveRatio(true);
+			iv2.setSmooth(true);
+			iv2.setCache(true);
+			iv2.setImage(erj175);
+			iv2.toBack();
+			
+			gameMan.playPane.getChildren().add(iv2);
+			
+			//Sets number of passengers in gameManager, and setup passengers
+			gameMan.setNumOfPassengers((int) passenger.getValue());
+			
+			gameMan.initializePassenger();
+			
+			// set exit coordinate
+			if(exit1.isSelected()) {
+				gameMan.addExits(95.5, 55);
+			}
+			if(exit2.isSelected()) {
+				gameMan.addExits(185, 55);
+			}
+			if(exit3.isSelected()) {
+				gameMan.addExits(88.5, 275);
+			}
+			if(exit4.isSelected()) {
+				gameMan.addExits(192, 275);	
+			}
+			if(exit5.isSelected()) {
+				gameMan.addExits(400, 350);
+			}
+			if(exit6.isSelected()) {
+				gameMan.addExits(400, 450);
+				
+			}
+		}
+
+		
 		//Starts the gameLoop, this is the animation
 		gameMan.gameLoop();
+		
+
 
 	}
 	
@@ -720,6 +785,15 @@ public class ViewManager {
 	
 	public Stage getMainStage() {
 		return mainStage;
+	}
+
+	public ComboBox<String> getAircraftSel() {
+		return aircraftSel;
+	}
+
+	public void setAircraftSel(ComboBox<String> aircraftSel) {
+		this.aircraftSel = aircraftSel;
+		
 	}
 
 

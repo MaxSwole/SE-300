@@ -27,13 +27,13 @@ import model.Sprite;
 
 public class GameManager {
 	final int WIDTH = 400;
-	final int LENGTH = 900;
+	final int LENGTH = 800;
 
-	private BorderPane borderPane = new BorderPane();
-	private Scene gameScene = new Scene(borderPane, WIDTH, LENGTH);
-	private Stage gameStage = new Stage();
-	private Pane playPane = new Pane();
-	private Pane layerPane = new Pane();
+	BorderPane borderPane = new BorderPane();
+	Scene gameScene = new Scene(borderPane, WIDTH, LENGTH);
+	Stage gameStage = new Stage();
+	Pane playPane = new Pane();
+	Pane layerPane = new Pane();
 	private HBox bottomHBox = new HBox();
 	private Button timeLabel = new Button();
 	private Button pauseBt = new Button(), menuBt = new Button();
@@ -43,22 +43,23 @@ public class GameManager {
 	private AircraftDB aircraftDB = new AircraftDB();
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
-	private double[][] seats = aircraftDB.getSeatCoordinates();
+	private double[][] seats = aircraftDB.getErjSeatCoordinates();
 //	private int numOfPassengers = 50;
 	
 	private int numOfPassengers;
 
-	private ImageView iv1 = new ImageView();
-	private Image crj200 = new Image("view/resources/CRJ200.jpg");
-	private Image erj175 = new Image("view/resources/ERJ175.jpg");
+	ImageView iv1 = new ImageView();
+	Image crj200 = new Image("view/resources/CRJ200.jpg");
+	Image erj175 = new Image("view/resources/ERJ175.jpg");
 	private Polygon exit1 = new Polygon();
 	private Polygon exit2 = new Polygon();
 	private Polygon exit3 = new Polygon();
 	private Polygon exit4 = new Polygon();
 	
-	private ViewManager viewMan = new ViewManager();
+	private ViewManager viewMan;
 	private int attractIndex = 0;
 	private double pauseDuration = 3.0;
+	Image image;
 
 	GameManager() throws Exception {
 		startStage(gameStage);
@@ -71,14 +72,7 @@ public class GameManager {
 		gameStage.getIcons().add(new Image("view/resources/Icon.png"));
 		gameStage.show();
 
-		// draw aircraft layout
-		iv1.setFitWidth(280);
-		iv1.setPreserveRatio(true);
-		iv1.setSmooth(true);
-		iv1.setCache(true);
-		iv1.setImage(crj200);
-		iv1.toBack();
-		playPane.getChildren().add(iv1);
+		
 		
 		// layerPane contains the playPane which is in the center borderPane
 		layerPane.getChildren().add(playPane);
@@ -88,6 +82,7 @@ public class GameManager {
 
 	}
 
+	
 	public void gameLoop() {
 		
 		// Displays for a few paused seconds so user can see configuration
@@ -255,6 +250,22 @@ public class GameManager {
 		return num;
 	}
 
+	public void aircraftLayout() {
+		
+/*		iv1.setFitWidth(280);
+		iv1.setPreserveRatio(true);
+		iv1.setSmooth(true);
+		iv1.setCache(true);
+		iv1.setImage(aircraftLayout);
+		iv1.toBack();
+		
+		playPane.getChildren().add(iv1);
+*/
+		
+		System.out.println("frog");
+	}
+	
+	
 	
 //*******************getters and Setters**********************************
 	
@@ -266,6 +277,7 @@ public class GameManager {
 	public void setNumOfPassengers(int num) {
 		numOfPassengers = num;
 	}
-	
+
+
 
 }
