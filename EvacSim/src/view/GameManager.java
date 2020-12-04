@@ -100,11 +100,14 @@ public class GameManager {
 			@Override
 			public void handle(long now) {
 				int exitCount = 0;
-		
+				
 				// Loop through the passengerList and attract all passengers to exits
 				for (Sprite sp1 : passengerList) {
+					
 					attractIndex = sp1.nearestExit(exitList);
 					sp1.setExitLocation(exitList.get(attractIndex).getLocation());
+					
+					System.out.println(sp1.getLocation());
 					
 					Point2D force = exitList.get(attractIndex).attract(sp1);
 					sp1.seperate(passengerList);
