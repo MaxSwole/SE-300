@@ -43,7 +43,8 @@ public class GameManager {
 	private AircraftDB aircraftDB = new AircraftDB();
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
-	private double[][] seats = aircraftDB.getErjSeatCoordinates();
+//	private double[][] seats = aircraftDB.getErjSeatCoordinates();
+//	private double[][] seats;
 //	private int numOfPassengers = 50;
 	
 	private int numOfPassengers;
@@ -107,8 +108,8 @@ public class GameManager {
 					attractIndex = sp1.nearestExit(exitList);
 					sp1.setExitLocation(exitList.get(attractIndex).getLocation());
 					
-					System.out.println(sp1.getLocation());
-					
+//					System.out.println(sp1.getLocation());
+					 
 					Point2D force = exitList.get(attractIndex).attract(sp1);
 					sp1.seperate(passengerList);
 					sp1.walls(exitList);
@@ -138,7 +139,7 @@ public class GameManager {
 		};
 	}
 
-	public void addPassengers() {
+	public void addPassengers(double [][] seats) {
 		// Declaring Variables and clearing list to ensure its empty
 		int i = 0, j = 0;
 		double x, y;
@@ -168,9 +169,9 @@ public class GameManager {
 	}
 
 	// adds the user defined number of passengers
-	public void initializePassenger() {
+	public void initializePassenger(double [][] crjseats) {
 		for (int i = 0; i < numOfPassengers; i++) {
-			addPassengers();
+			addPassengers(crjseats);
 		}
 /*
 		// adds exits

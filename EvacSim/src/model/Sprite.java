@@ -178,12 +178,14 @@ public class Sprite extends Circle {
 			Point2D steer = velocity.subtract(desired);
 			applyForce(steer);
 		}
+		
 		//Sets left wall
 		if(location.getX() <= 50) {
 			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
 			Point2D steer = desired.subtract(velocity);
 			applyForce(steer);
 		}
+/*
 		//Sets Bottom wall
 		if(location.getY() >= 500) {
 			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
@@ -196,6 +198,7 @@ public class Sprite extends Circle {
 			Point2D steer = desired.subtract(velocity);
 			applyForce(steer);
 		}
+*/
 	}
 
 	

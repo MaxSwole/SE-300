@@ -42,6 +42,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Aircraft;
+import model.AircraftDB;
 import model.AircraftEvacSimButton;
 import model.AircraftEvacSubScene;
 import model.AircraftPicked;
@@ -92,6 +93,10 @@ public class ViewManager {
 	private Spinner<Integer> passengerChild = new Spinner<Integer>();
 	private Spinner<Integer> passengerElderly = new Spinner<Integer>();
 	private Spinner<Integer> passengerDisability = new Spinner<Integer>();
+	
+	private AircraftDB aircraftDB = new AircraftDB();
+	double[][] erjSeats = aircraftDB.getErjSeatCoordinates();
+	double[][] crjSeats = aircraftDB.CrjSeatCoordinates();
 	
 	AircraftEvacSimButton startButton; 
 	
@@ -422,8 +427,8 @@ public class ViewManager {
 					passenger.setLayoutX(95);
 					passenger.setLayoutY(85);	
 					
-					exit5.setDisable(true);
-					exit6.setDisable(true);
+					exit5.setDisable(false);
+					exit6.setDisable(false);
 				}
 			
 			
@@ -677,7 +682,7 @@ public class ViewManager {
 			//Sets number of passengers in gameManager, and setup passengers
 			gameMan.setNumOfPassengers((int) passenger.getValue());
 			
-			gameMan.initializePassenger();
+			gameMan.initializePassenger(crjSeats);
 			
 			// set exit coordinate
 			if(exit1.isSelected()) {
@@ -712,26 +717,26 @@ public class ViewManager {
 			//Sets number of passengers in gameManager, and setup passengers
 			gameMan.setNumOfPassengers((int) passenger.getValue());
 			
-			gameMan.initializePassenger();
+			gameMan.initializePassenger(erjSeats);
 			
 			// set exit coordinate
 			if(exit1.isSelected()) {
-				gameMan.addExits(95.5, 55);
+				gameMan.addExits(95.5, 75);
 			}
 			if(exit2.isSelected()) {
-				gameMan.addExits(185, 55);
+				gameMan.addExits(185, 75);
 			}
 			if(exit3.isSelected()) {
-				gameMan.addExits(88.5, 275);
+				gameMan.addExits(88.5, 245.5);
 			}
 			if(exit4.isSelected()) {
-				gameMan.addExits(192, 275);	
+				gameMan.addExits(192, 245.5);	
 			}
 			if(exit5.isSelected()) {
-				gameMan.addExits(400, 350);
+				gameMan.addExits(98.5, 690);
 			}
 			if(exit6.isSelected()) {
-				gameMan.addExits(400, 450);
+				gameMan.addExits(185, 690);
 				
 			}
 		}
