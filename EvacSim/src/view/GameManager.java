@@ -40,22 +40,13 @@ public class GameManager {
 	private AnimationTimer gameLoop;
 	private boolean isPaused = false;
 
-	private AircraftDB aircraftDB = new AircraftDB();
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
-//	private double[][] seats = aircraftDB.getErjSeatCoordinates();
-//	private double[][] seats;
-//	private int numOfPassengers = 50;
-	
 	private int numOfPassengers;
 
 	ImageView iv1 = new ImageView();
 	Image crj200 = new Image("view/resources/CRJ200.jpg");
 	Image erj175 = new Image("view/resources/ERJ175.jpg");
-	private Polygon exit1 = new Polygon();
-	private Polygon exit2 = new Polygon();
-	private Polygon exit3 = new Polygon();
-	private Polygon exit4 = new Polygon();
 	
 	private ViewManager viewMan;
 	private int attractIndex = 0;
@@ -66,7 +57,7 @@ public class GameManager {
 		startStage(gameStage);
 	}
 
-	void startStage(Stage primaryStage) throws Exception {
+	public void startStage(Stage primaryStage) throws Exception {
 		gameStage.setTitle("Simulation");
 		gameStage.setResizable(false);
 		gameStage.setScene(gameScene);
@@ -173,16 +164,7 @@ public class GameManager {
 		for (int i = 0; i < numOfPassengers; i++) {
 			addPassengers(crjseats);
 		}
-/*
-		// adds exits
-		addExits(225, 350);
-		addExits(225, 450);
-		addExits(225, 400);
 		
-		addExits(400, 400);
-		addExits(400, 350);
-		addExits(400, 450);
-*/		
 		
 	}
 	
@@ -245,10 +227,6 @@ public class GameManager {
 		}
 	}
 
-	public BorderPane getBorderPane() {
-		return borderPane;
-	}
-
 	// Random Method to define the 'type' of passenger.
 	public int randomType(int min, int max) {
 		int num = (int) (Math.random() * (max - min + 1) + min);
@@ -272,7 +250,7 @@ public class GameManager {
 	
 	
 	
-//*******************getters and Setters**********************************
+//*******************Getters and Setters**********************************
 	
 	public int getNumOfPassengers() {
 		return numOfPassengers;

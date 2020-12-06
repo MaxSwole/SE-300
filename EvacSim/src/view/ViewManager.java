@@ -669,7 +669,7 @@ public class ViewManager {
 		}
 */		
 		if(aircraftSel.getValue() == "Bombardier CRJ-200" ) {
-			System.out.println("frog");
+			//System.out.println("frog");
 			iv2.setFitWidth(280);
 			iv2.setPreserveRatio(true);
 			iv2.setSmooth(true);
@@ -696,13 +696,6 @@ public class ViewManager {
 			}
 			if(exit4.isSelected()) {
 				gameMan.addExits(192, 275);	
-			}
-			if(exit5.isSelected()) {
-				gameMan.addExits(400, 350);
-			}
-			if(exit6.isSelected()) {
-				gameMan.addExits(400, 450);
-				
 			}
 		}else if(aircraftSel.getValue() == "Embraer ERJ-175") {
 			iv2.setFitWidth(280);
