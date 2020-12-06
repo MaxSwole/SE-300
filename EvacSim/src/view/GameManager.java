@@ -227,6 +227,7 @@ public class GameManager {
 		// System.exit(0);
 		gameStage.close();
 		gameLoop.stop();
+		viewMan = new ViewManager();
 		viewMan.startViewManager();
 
 	}

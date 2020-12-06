@@ -168,7 +168,7 @@ public class ViewManager {
 // set passenger count for passengerSpinner	
 	private void numbOfPassenger() {
 		if(choosenAircraft == choosenAircraft.airbus) {
-			System.out.print("fuck");
+			System.out.print("airbus");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150);
 			passenger.setValueFactory(passengerSpinnerValue);
 			passenger.setPrefSize(60, 30);
@@ -177,7 +177,7 @@ public class ViewManager {
 
 		}
 		else if(choosenAircraft == choosenAircraft.bombardier) {
-			System.out.print("DUCK");
+			System.out.print("bombardier");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
 			passenger.setValueFactory(passengerSpinnerValue);
 			passenger.setPrefSize(60, 30);
@@ -185,7 +185,7 @@ public class ViewManager {
 			passenger.setLayoutY(85);
 		}
 		else if(choosenAircraft == choosenAircraft.embraer) {
-			System.out.print("Oops");
+			System.out.print("embraer");
 			SpinnerValueFactory<Integer> passengerSpinnerValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 69);
 			passenger.setValueFactory(passengerSpinnerValue);
 			passenger.setPrefSize(60, 30);
