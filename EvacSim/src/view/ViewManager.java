@@ -417,6 +417,7 @@ public class ViewManager {
 			@Override
 			public void handle(ActionEvent event) {
 				showSubScene(configurationSubScene);
+				
 			}
 		});
 	}
@@ -658,21 +659,8 @@ public class ViewManager {
 		mainPane.getChildren().add(logo);
 	}
 
-	public int getPassenger() {
-		return (int) passenger.getValue();
-	}
-
 	public Stage getMainStage() {
 		return mainStage;
-	}
-
-	public ComboBox<String> getAircraftSel() {
-		return aircraftSel;
-	}
-
-	public void setAircraftSel(ComboBox<String> aircraftSel) {
-		this.aircraftSel = aircraftSel;
-
 	}
 
 }
