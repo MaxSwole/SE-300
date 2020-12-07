@@ -220,12 +220,6 @@ public class Sprite extends Circle {
 		return listIndex;
 	}
 
-	// Set vector location
-	public void setLocation(Point2D location) {
-		this.location = location;
-
-	}
-
 	// Change size of Circle (Exits are larger, will eventually be transparent)
 	public void setRadius(int radius) {
 		this.radius = radius;

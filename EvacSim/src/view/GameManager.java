@@ -252,9 +252,6 @@ public class GameManager {
 	
 //*******************Getters and Setters**********************************
 	
-	public int getNumOfPassengers() {
-		return numOfPassengers;
-	}
 
 	// Sets the number of passengers
 	public void setNumOfPassengers(int num) {

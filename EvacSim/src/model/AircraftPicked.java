@@ -33,9 +33,6 @@ public class AircraftPicked extends VBox{
 		return aircraft;	
 	}
 	
-	public boolean getIsCircleChoosen(){
-		return isCircleChoosen;	
-	}
 	
 	public void setIsCircleChoosen(boolean isCircleChoosen){
 		this.isCircleChoosen = isCircleChoosen;
