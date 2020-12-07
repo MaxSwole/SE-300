@@ -31,7 +31,6 @@ import javafx.stage.Stage;
 import model.AircraftDB;
 import model.AircraftEvacSimButton;
 import model.AircraftEvacSubScene;
-import model.AircraftPicked;
 
 public class ViewManager {
 
@@ -70,7 +69,6 @@ public class ViewManager {
 	private AircraftEvacSubScene sceneToHide;
 
 	List<AircraftEvacSimButton> menuButtons;
-	List<AircraftPicked> aircraftList;
 
 	private Spinner<Integer> passenger = new Spinner<Integer>();
 	private Spinner<Integer> passengerAdult = new Spinner<Integer>();
@@ -303,10 +301,7 @@ public class ViewManager {
 		return grid;
 	}
 
-//	box status for configuration sub scene
-	private void checkBoxStatus() {
 
-	}
 
 // label for configuration sub-scene 	
 	private void configurationSubsceneLabel() {
