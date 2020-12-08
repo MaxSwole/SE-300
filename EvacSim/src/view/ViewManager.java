@@ -496,9 +496,9 @@ public class ViewManager {
 	private void createResetButton() {
 		AircraftEvacSimButton resetButton = new AircraftEvacSimButton("RESET");
 //		addMenuButton(resetButton);
-		resetButton.setLayoutX(40);
-		resetButton.setLayoutY(600);
-		resetButton.setPrefSize(70, 10);
+		resetButton.setLayoutX(45);
+		resetButton.setLayoutY(620);
+		resetButton.setPrefSize(80, 10);
 		mainPane.getChildren().add(resetButton);
 		resetButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
