@@ -563,6 +563,7 @@ public class ViewManager {
 			iv2.setCache(true);
 			iv2.setImage(crj200);
 			iv2.toBack();
+			gameMan.setAircraft(1);
 
 			gameMan.playPane.getChildren().add(iv2);
 
@@ -574,15 +575,19 @@ public class ViewManager {
 			// set exit coordinate
 			if (exit1.isSelected()) {
 				gameMan.addExits(95.5, 55);
+				gameMan.setEx1(1);
 			}
 			if (exit2.isSelected()) {
 				gameMan.addExits(185, 55);
+				gameMan.setEx2(2);
 			}
 			if (exit3.isSelected()) {
 				gameMan.addExits(88.5, 275);
+				gameMan.setEx3(3);
 			}
 			if (exit4.isSelected()) {
 				gameMan.addExits(192, 275);
+				gameMan.setEx4(4);
 			}
 		} else if (aircraftSel.getValue() == "Embraer ERJ-175") {
 			iv2.setFitWidth(280);
@@ -591,6 +596,7 @@ public class ViewManager {
 			iv2.setCache(true);
 			iv2.setImage(erj175);
 			iv2.toBack();
+			gameMan.setAircraft(2);
 
 			gameMan.playPane.getChildren().add(iv2);
 
@@ -602,21 +608,27 @@ public class ViewManager {
 			// set exit coordinate
 			if (exit1.isSelected()) {
 				gameMan.addExits(95.5, 75);
+				gameMan.setEx1(1);
 			}
 			if (exit2.isSelected()) {
 				gameMan.addExits(185, 75);
+				gameMan.setEx2(2);
 			}
 			if (exit3.isSelected()) {
 				gameMan.addExits(88.5, 245.5);
+				gameMan.setEx3(3);
 			}
 			if (exit4.isSelected()) {
 				gameMan.addExits(192, 245.5);
+				gameMan.setEx4(4);
 			}
 			if (exit5.isSelected()) {
 				gameMan.addExits(98.5, 690);
+				gameMan.setEx5(5);
 			}
 			if (exit6.isSelected()) {
 				gameMan.addExits(185, 690);
+				gameMan.setEx6(6);
 
 			}
 		}

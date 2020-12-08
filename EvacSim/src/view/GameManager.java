@@ -1,6 +1,17 @@
 package view;
 
 import java.awt.Polygon;
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -43,6 +54,14 @@ public class GameManager {
 	private ArrayList<Sprite> passengerList = new ArrayList<Sprite>();
 	private ArrayList<Sprite> exitList = new ArrayList<Sprite>();
 	private int numOfPassengers;
+	private float elapsedTime;
+	private int ex1;
+	private int ex2;
+	private int ex3;
+	private int ex4;
+	private int ex5;
+	private int ex6;
+	private int aircraft;
 
 	ImageView iv1 = new ImageView();
 	Image crj200 = new Image("view/resources/CRJ200.jpg");
@@ -54,7 +73,9 @@ public class GameManager {
 	Image image;
 
 	GameManager() throws Exception {
+			
 		startStage(gameStage);
+				
 	}
 
 	public void startStage(Stage primaryStage) throws Exception {
@@ -63,8 +84,6 @@ public class GameManager {
 		gameStage.setScene(gameScene);
 		gameStage.getIcons().add(new Image("view/resources/Icon.png"));
 		gameStage.show();
-
-		
 		
 		// layerPane contains the playPane which is in the center borderPane
 		layerPane.getChildren().add(playPane);
@@ -113,6 +132,7 @@ public class GameManager {
 				end = (float) (end - pauseDuration);
 				end = (float) (Math.round(end * 10) / 10.0);
 				timeLabel.setText("Elapsed Time: " + Float.toString(end));
+				elapsedTime = end;
 				
 				// Display and move the passengers
 				passengerList.forEach(Sprite::display);
@@ -123,6 +143,7 @@ public class GameManager {
 						exitCount++;
 						if(exitCount == numOfPassengers) {
 							this.stop();
+							printResults();
 						}
 					}
 				}
@@ -130,6 +151,59 @@ public class GameManager {
 		};
 	}
 
+	public void printResults() {
+		String databaseURL = "jdbc:ucanaccess://view/resources/Results.accdb";
+		
+		try {
+			Connection connection = DriverManager.getConnection(databaseURL);
+			
+			System.out.println("Database Connection Successful.");
+			
+			String sql = "INSERT INTO Results (Aircraft, Exits, Passengers, Evac_Time, FAA_Compliant) VALUES (?, ?, ?, ?, ?)";				
+		
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			
+			
+			//if (viewMan.iv2.getImage() == crj200) {
+			//	System.out.println("Bombardier");
+			//} //else if (viewMan.aircraftSel.getSelectionModel().getSelectedIndex() == 1) {
+				//	System.out.println("Embraer");
+			//} 
+						
+			if (aircraft==1) {
+				statement.setString(1, "Bombardier CRJ-200");
+				String operExits = Integer.toString(ex1) + ',' + Integer.toString(ex2) + ',' + Integer.toString(ex3) + ',' + Integer.toString(ex4);
+				statement.setString(2, operExits);
+			} else if (aircraft==2) {
+				statement.setString(1, "Embraer ERJ-175");	
+				String operExits = Integer.toString(ex1) + ',' + Integer.toString(ex2) + ',' + Integer.toString(ex3) + ',' + Integer.toString(ex4) + ',' + Integer.toString(ex5) + ',' + Integer.toString(ex6);
+				statement.setString(2, operExits);
+			}
+									
+			statement.setString(3, Integer.toString(numOfPassengers));
+			statement.setString(4, Float.toString(elapsedTime));
+			if (elapsedTime <= 90) {
+				statement.setString(5, "Y");	
+			} else if (elapsedTime > 90) {
+				statement.setString(5, "N");
+			}	
+			
+			int rows = statement.executeUpdate();
+			
+			if (rows > 0) {
+				System.out.println("Results have been recorded to the database successfully.");
+			}	
+			
+			connection.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	public void addPassengers(double [][] seats) {
 		// Declaring Variables and clearing list to ensure its empty
 		int i = 0, j = 0;
@@ -257,7 +331,34 @@ public class GameManager {
 	public void setNumOfPassengers(int num) {
 		numOfPassengers = num;
 	}
-
+	// Sets operable exits for database purposes
+	public void setEx1(int num) {
+		ex1 = num;
+	}
+	
+	public void setEx2(int num) {
+		ex2 = num;
+	}
+	
+	public void setEx3(int num) {
+		ex3 = num;
+	}
+	
+	public void setEx4(int num) {
+		ex4 = num;
+	}
+	
+	public void setEx5(int num) {
+		ex5 = num;
+	}
+	
+	public void setEx6(int num) {
+		ex6 = num;
+	}
+	// Sets chosen aircraft for database purposes
+	public void setAircraft(int num) {
+		aircraft = num;
+	}
 
 
 }

@@ -12,5 +12,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+	<classpathentry kind="lib" path="libs/commons-lang3-3.8.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="libs/hsqldb-2.5.0.jar"/>
+	<classpathentry kind="lib" path="libs/jackcess-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/ucanaccess-5.0.0.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
