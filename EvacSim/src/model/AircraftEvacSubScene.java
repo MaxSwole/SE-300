@@ -19,7 +19,7 @@ public class AircraftEvacSubScene extends SubScene {
 		prefWidth(620);
 		prefHeight(400);
 
-		setLayoutX(230);
+		setLayoutX(30);
 		setLayoutY(170);
 
 		isHidden = true;

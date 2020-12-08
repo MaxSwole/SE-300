@@ -34,7 +34,7 @@ import model.AircraftEvacSubScene;
 
 public class ViewManager {
 
-	private static final int width = 800;
+	private static final int width = 600;
 	private static final int height = 700;
 	private AnchorPane mainPane;
 	private Scene mainScene;
@@ -53,7 +53,6 @@ public class ViewManager {
 //	private ComboBox<String> aircraftSel = new ComboBox<String> ();
 	ComboBox<String> aircraftSel = new ComboBox<String>(
 			FXCollections.observableArrayList("Bombardier CRJ-200", "Embraer ERJ-175"));
-	boolean isMyComboBoxEmpty = aircraftSel.getSelectionModel().isEmpty();
 
 	ImageView iv1 = new ImageView();
 	ImageView iv2 = new ImageView();
@@ -164,13 +163,7 @@ public class ViewManager {
 		disability.setPrefSize(60, 10);
 		disability.setLayoutX(450);
 		disability.setLayoutY(210);
-		/*
-		 * TextField totalPassenger = new TextField(); totalPassenger.setPrefSize(60,
-		 * 10); totalPassenger.setLayoutX(410); totalPassenger.setLayoutY(280);
-		 * 
-		 * 
-		 * totalPassenger.setText(String.valueOf( adult.getText() ));
-		 */
+
 
 // spinner for adult	
 		SpinnerValueFactory<Integer> passengerSpinnerValue2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
@@ -243,21 +236,24 @@ public class ViewManager {
 		text1.setFont(Font.font("Calibri Light", 15));
 		text1.setLayoutX(290);
 		text1.setLayoutY(210);
+		text1.setVisible(false);
 		text2.setFont(Font.font("Calibri Light", 18));
 		text2.setLayoutX(10);
 		text2.setLayoutY(130);
+		text2.setVisible(false);
 		text3.setFont(Font.font("Calibri Light", 15));
 		text3.setLayoutX(180);
 		text3.setLayoutY(170);
+		text3.setVisible(false);
 		text4.setFont(Font.font("Calibri Light", 15));
 		text4.setLayoutX(310);
 		text4.setLayoutY(170);
+		text4.setVisible(false);
 		text5.setFont(Font.font("Calibri Light", 15));
 		text5.setLayoutX(180);
 		text5.setLayoutY(210);
-		passengerSubScene.getPane().getChildren().addAll(text, text1, text2, text3, text4, text5, passenger,
-				passengerAdult, adult, child, elderly, disability, passengerChild, passengerElderly,
-				passengerDisability);
+		text5.setVisible(false);
+		passengerSubScene.getPane().getChildren().addAll(text,passenger);
 	}
 
 // sub-scene for configuration
@@ -409,6 +405,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton aircraftButton = new AircraftEvacSimButton("AIRCRAFT");
 		addMenuButton(aircraftButton);
+		aircraftButton.setVisible(false);
 
 		aircraftButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -423,6 +420,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton configurationButton = new AircraftEvacSimButton("CONFIGURATION");
 		addMenuButton(configurationButton);
+		configurationButton.setVisible(false);
 
 		configurationButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -439,6 +437,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton passengerButton = new AircraftEvacSimButton("PASSENGER");
 		addMenuButton(passengerButton);
+		passengerButton.setVisible(false);
 
 		passengerButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -452,7 +451,7 @@ public class ViewManager {
 
 		AircraftEvacSimButton exitButton = new AircraftEvacSimButton("EXIT");
 		addMenuButton(exitButton);
-
+		exitButton.setVisible(false);
 		exitButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -497,7 +496,7 @@ public class ViewManager {
 	private void createResetButton() {
 		AircraftEvacSimButton resetButton = new AircraftEvacSimButton("RESET");
 //		addMenuButton(resetButton);
-		resetButton.setLayoutX(240);
+		resetButton.setLayoutX(40);
 		resetButton.setLayoutY(600);
 		resetButton.setPrefSize(70, 10);
 		mainPane.getChildren().add(resetButton);
@@ -512,7 +511,7 @@ public class ViewManager {
 	private void createStartButton() {
 
 		AircraftEvacSimButton startButton = new AircraftEvacSimButton("START");
-		startButton.setLayoutX(640);
+		startButton.setLayoutX(440);
 		startButton.setLayoutY(620);
 		startButton.setPrefSize(120, 10);
 //		addMenuButton(startButton);
@@ -537,23 +536,8 @@ public class ViewManager {
 		// Creates gameManager and opens gameStage
 		GameManager gameMan = new GameManager();
 		mainStage.close();
-		/*
-		 * //Sets number of passengers in gameManager, and setup passengers
-		 * gameMan.setNumOfPassengers((int) passenger.getValue());
-		 * 
-		 * gameMan.initializePassenger();
-		 * 
-		 * 
-		 * // set exit coordinate if(exit1.isSelected()) { gameMan.addExits(95.5, 55); }
-		 * if(exit2.isSelected()) { gameMan.addExits(185, 55); } if(exit3.isSelected())
-		 * { gameMan.addExits(88.5, 275); } if(exit4.isSelected()) {
-		 * gameMan.addExits(192, 275); } if(exit5.isSelected()) { gameMan.addExits(400,
-		 * 350); } if(exit6.isSelected()) { gameMan.addExits(400, 450);
-		 * 
-		 * }
-		 */
+
 		if (aircraftSel.getValue() == "Bombardier CRJ-200") {
-			// System.out.println("frog");
 			iv2.setFitWidth(280);
 			iv2.setPreserveRatio(true);
 			iv2.setSmooth(true);
@@ -638,7 +622,7 @@ public class ViewManager {
 // create background
 	private void createBackground() {
 
-		Image backgroundImage = new Image("view/resources/background_image.jpg", 800, 800, false, true);
+		Image backgroundImage = new Image("view/resources/background_image.jpg", 600, 800, false, true);
 		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
 		mainPane.setBackground(new Background(background));
@@ -647,7 +631,7 @@ public class ViewManager {
 // create logo	
 	private void createLogo() {
 		ImageView logo = new ImageView("/view/resources/aircraft_logo.png");
-		logo.setLayoutX(400);
+		logo.setLayoutX(200);
 		logo.setLayoutY(0);
 
 		logo.setOnMouseEntered(new EventHandler<MouseEvent>() {
