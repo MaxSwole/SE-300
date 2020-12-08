@@ -142,7 +142,6 @@ public class ViewManager {
 		passengerSubsceneLabel();
 	}
 
-
 // label for passenger sub-scene 	
 	private void passengerSubsceneLabel() {
 
@@ -182,7 +181,7 @@ public class ViewManager {
 
 		passengerAdult.valueProperty().addListener((observed, oldValue, newValue) -> {
 
-			int total = (((int) newValue) * passenger.getValue()) / 100;
+			int total = ((newValue) * passenger.getValue()) / 100;
 
 			adult.setText(String.valueOf(total));
 		});
@@ -196,7 +195,7 @@ public class ViewManager {
 
 		passengerChild.valueProperty().addListener((observed, oldValue, newValue) -> {
 
-			int total = (((int) newValue) * passenger.getValue()) / 100;
+			int total = ((newValue) * passenger.getValue()) / 100;
 
 			child.setText(String.valueOf(total));
 
@@ -211,7 +210,7 @@ public class ViewManager {
 
 		passengerElderly.valueProperty().addListener((observed, oldValue, newValue) -> {
 
-			int total = (((int) newValue) * passenger.getValue()) / 100;
+			int total = ((newValue) * passenger.getValue()) / 100;
 
 			elderly.setText(String.valueOf(total));
 
@@ -226,7 +225,7 @@ public class ViewManager {
 
 		passengerDisability.valueProperty().addListener((observed, oldValue, newValue) -> {
 
-			int total = (((int) newValue) * passenger.getValue()) / 100;
+			int total = ((newValue) * passenger.getValue()) / 100;
 
 			disability.setText(String.valueOf(total));
 
@@ -300,8 +299,6 @@ public class ViewManager {
 		grid.setLayoutY(100);
 		return grid;
 	}
-
-
 
 // label for configuration sub-scene 	
 	private void configurationSubsceneLabel() {
@@ -417,7 +414,7 @@ public class ViewManager {
 			@Override
 			public void handle(ActionEvent event) {
 				showSubScene(configurationSubScene);
-				
+
 			}
 		});
 	}
@@ -568,7 +565,7 @@ public class ViewManager {
 			gameMan.playPane.getChildren().add(iv2);
 
 			// Sets number of passengers in gameManager, and setup passengers
-			gameMan.setNumOfPassengers((int) passenger.getValue());
+			gameMan.setNumOfPassengers(passenger.getValue());
 
 			gameMan.initializePassenger(crjSeats);
 
@@ -601,7 +598,7 @@ public class ViewManager {
 			gameMan.playPane.getChildren().add(iv2);
 
 			// Sets number of passengers in gameManager, and setup passengers
-			gameMan.setNumOfPassengers((int) passenger.getValue());
+			gameMan.setNumOfPassengers(passenger.getValue());
 
 			gameMan.initializePassenger(erjSeats);
 

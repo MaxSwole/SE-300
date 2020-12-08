@@ -3,11 +3,8 @@ package model;
 import java.util.ArrayList;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class Sprite extends Circle {
 
@@ -42,7 +39,7 @@ public class Sprite extends Circle {
 		this.acceleration = acceleration;
 
 		setRadius(radius);
-		
+
 		if (type == 0) {
 
 			setStroke(Color.BROWN);
@@ -64,27 +61,12 @@ public class Sprite extends Circle {
 			setStroke(Color.BLACK);
 			setFill(Color.BLACK);
 		}
-		//System.out.println(MASS);
 	}
 
 	// How the passengers are attracted to the Exits
 	public Point2D attract(Sprite exitSprite) {
-
-		// force direction
 		Point2D force = location.subtract(exitSprite.location);
-		//double distance = force.magnitude();
-
-		// constrain movement
-		//distance = constrain(distance, ATTRACTION_DISTANCE_MIN,
-		// ATTRACTION_DISTANCE_MAX);
-
 		force = force.normalize();
-
-		// force magnitude
-		//double strength = (GRAVITATIONAL_CONSTANT * MASS * MASS) /
-		//(distance * distance);
-		
-		//force = force.multiply(strength);
 		
 		return force;
 	}
@@ -94,7 +76,6 @@ public class Sprite extends Circle {
 	public void applyForce(Point2D force) {
 		Point2D f = new Point2D(force.getX(), force.getY());
 		f = f.multiply(1 / MASS);
-		//f = f.multiply(MASS);
 		acceleration = acceleration.add(f);
 
 	}
@@ -105,7 +86,7 @@ public class Sprite extends Circle {
 			velocity = new Point2D(0, 0);
 			acceleration = new Point2D(0, 0);
 			location = exitLocation;
-			atExit = true;			
+			atExit = true;
 
 		} else {
 
@@ -114,7 +95,7 @@ public class Sprite extends Circle {
 
 			// limit velocity to max speed
 			double mag = velocity.magnitude();
-			
+
 			if (mag > MAXVELOCITY) {
 				velocity = velocity.normalize();
 				velocity = velocity.multiply(MAXVELOCITY);
@@ -133,90 +114,81 @@ public class Sprite extends Circle {
 		setCenterX(location.getX());
 		setCenterY(location.getY());
 	}
-	
+
 	public void seperate(ArrayList<Sprite> passengerList) {
 		double desiredSeperation = 7;
 		double i = 0;
-		Point2D sum = new Point2D(0,0), sumResult = new Point2D(0,0);
-		
-		for(Sprite other : passengerList) {
+		Point2D sum = new Point2D(0, 0), sumResult = new Point2D(0, 0);
+
+		for (Sprite other : passengerList) {
 			double distance = location.distance(other.location);
-			
-			if((distance > 0) && (distance < desiredSeperation)) {
+
+			if ((distance > 0) && (distance < desiredSeperation)) {
 				Point2D diff = location.subtract(other.location);
 				diff.normalize();
 				sumResult = sum.add(diff);
 				i++;
-				
+
 			}
 		}
-		if(i > 0) {
+		if (i > 0) {
 			double x, y;
-			x = sumResult.getX()/i;
-			y = sumResult.getY()/i;
-			
+			x = sumResult.getX() / i;
+			y = sumResult.getY() / i;
+
 			Point2D newSum = new Point2D(x, y);
 			applyForce(newSum);
-					
-		}	
-	}
-	
-	public void walls(ArrayList<Sprite> exitList) {
-	
-		//Exit One Wall
-		/*
-		if(location.getX() <= 224 && location.getY() >=351) {
-			Point2D desired = new Point2D(MAXVELOCITY, MAXVELOCITY);
-			Point2D steer = desired.subtract(velocity);
-			applyForce(steer);
+
 		}
-		*/
-		
-		//Sets right wall
-		if(location.getX() >= 200) {
-			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
-			Point2D steer = velocity.subtract(desired);
-			applyForce(steer);
-		}
-		
-		//Sets left wall
-		if(location.getX() <= 50) {
-			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
-			Point2D steer = desired.subtract(velocity);
-			applyForce(steer);
-		}
-/*
-		//Sets Bottom wall
-		if(location.getY() >= 500) {
-			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
-			Point2D steer = velocity.subtract(desired);
-			applyForce(steer);
-		}
-		//Sets top wall
-		if(location.getY() <= 50) {
-			Point2D desired = new Point2D(velocity.getX(), MAXVELOCITY);
-			Point2D steer = desired.subtract(velocity);
-			applyForce(steer);
-		}
-*/
 	}
 
-	
+	public void walls(ArrayList<Sprite> exitList) {
+
+		// Exit One Wall
+		/*
+		 * if(location.getX() <= 224 && location.getY() >=351) { Point2D desired = new
+		 * Point2D(MAXVELOCITY, MAXVELOCITY); Point2D steer =
+		 * desired.subtract(velocity); applyForce(steer); }
+		 */
+
+		// Sets right wall
+		if (location.getX() >= 200) {
+			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
+			Point2D steer = velocity.subtract(desired);
+			applyForce(steer);
+		}
+
+		// Sets left wall
+		if (location.getX() <= 50) {
+			Point2D desired = new Point2D(MAXVELOCITY, velocity.getY());
+			Point2D steer = desired.subtract(velocity);
+			applyForce(steer);
+		}
+		/*
+		 * //Sets Bottom wall if(location.getY() >= 500) { Point2D desired = new
+		 * Point2D(velocity.getX(), MAXVELOCITY); Point2D steer =
+		 * velocity.subtract(desired); applyForce(steer); } //Sets top wall
+		 * if(location.getY() <= 50) { Point2D desired = new Point2D(velocity.getX(),
+		 * MAXVELOCITY); Point2D steer = desired.subtract(velocity); applyForce(steer);
+		 * }
+		 */
+	}
+
 	public int nearestExit(ArrayList<Sprite> exitList) {
 		int listIndex = 0;
-		
+
 		Point2D tempExit, currentExit;
-		
-		for(int i = 0; i < exitList.size(); i++) {
+
+		for (int i = 0; i < exitList.size(); i++) {
 			currentExit = exitList.get(listIndex).getLocation();
 			tempExit = exitList.get(i).getLocation();
-		
-			if(currentExit.distance(location) > tempExit.distance(location)) {
+
+			if (currentExit.distance(location) > tempExit.distance(location)) {
 				listIndex = i;
 			}
-			
+
 		}
-		
+
 		return listIndex;
 	}
 
@@ -224,21 +196,20 @@ public class Sprite extends Circle {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
-	
 
 	public void setVisible() {
 		setVisible(true);
 	}
-	
+
 	public Point2D getLocation() {
 		return location;
 	}
 
 	public void setExitLocation(Point2D exitLocation) {
 		this.exitLocation = exitLocation;
-		
+
 	}
-	
+
 	public boolean getAtExit() {
 		return atExit;
 	}

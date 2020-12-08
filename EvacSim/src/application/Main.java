@@ -14,10 +14,9 @@ public class Main extends Application {
 		primaryStage.getIcons().add(new Image("view/resources/Icon.png"));
 		primaryStage.show();
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 
 }
